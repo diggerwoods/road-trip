@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Rory's Epic Road Trip Quest</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Cinzel:wght@700&family=Inter:wght@400;600;700&display=swap');
         
@@ -83,12 +85,6 @@
             z-index: 1;
         }
 
-        .triforce {
-            color: var(--gold);
-            font-size: 1.2rem;
-            margin: 0 5px;
-        }
-
         /* Tab Navigation */
         .tab-nav {
             position: fixed;
@@ -108,14 +104,14 @@
             background: none;
             border: none;
             color: var(--text-dim);
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-family: 'Inter', sans-serif;
             font-weight: 600;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            padding: 6px 8px;
+            padding: 6px 6px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
@@ -127,7 +123,7 @@
         }
 
         .tab-btn .tab-icon {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
 
         /* Tab Content */
@@ -202,6 +198,27 @@
             margin-top: 8px;
         }
 
+        .quest-card .joke-box {
+            background: rgba(192, 132, 252, 0.1);
+            border: 1px solid var(--purple);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--purple);
+        }
+
+        .quest-card .activity-box {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid var(--blue);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--blue);
+            line-height: 1.5;
+        }
+
         /* Countdown */
         .countdown-container {
             text-align: center;
@@ -261,6 +278,39 @@
             margin-top: 6px;
         }
 
+        /* Are We There Yet button */
+        .awty-btn {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s;
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        .awty-btn:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .awty-response {
+            margin-top: 12px;
+            font-size: 1rem;
+            color: var(--gold);
+            font-weight: 600;
+            min-height: 30px;
+            transition: all 0.3s;
+        }
+
         /* Fun Facts */
         .fact-category {
             margin-bottom: 20px;
@@ -290,11 +340,64 @@
             margin-right: 8px;
         }
 
+        /* Currency Converter */
+        .converter-box {
+            background: var(--card-bg);
+            border: 2px solid var(--gold-dark);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .converter-box h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .converter-input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .converter-input-row input {
+            flex: 1;
+            background: var(--darker-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .converter-input-row .flag {
+            font-size: 1.5rem;
+        }
+
+        .converter-result {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .converter-examples {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
         /* Games */
         .game-selector {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
 
@@ -302,10 +405,10 @@
             background: var(--card-bg);
             border: 2px solid var(--card-border);
             border-radius: 12px;
-            padding: 16px 10px;
+            padding: 12px 6px;
             text-align: center;
             color: var(--text);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -318,9 +421,9 @@
         }
 
         .game-btn .game-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .game-area {
@@ -522,6 +625,178 @@
             text-align: center;
         }
 
+        /* Photo Scavenger Hunt */
+        .scavenger-list {
+            list-style: none;
+        }
+
+        .scavenger-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .scavenger-item.completed {
+            border-color: var(--green);
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .scavenger-item .check {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--card-border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .scavenger-item.completed .check {
+            border-color: var(--green);
+            background: rgba(74, 222, 128, 0.2);
+        }
+
+        .scavenger-item .item-text {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .scavenger-item.completed .item-text {
+            color: var(--green);
+            text-decoration: line-through;
+        }
+
+        /* Snack Tracker */
+        .snack-form {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .snack-form input {
+            width: 100%;
+            background: var(--darker-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: var(--text);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .snack-stars {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 12px 0;
+        }
+
+        .snack-stars .star {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.1s;
+            filter: grayscale(1);
+        }
+
+        .snack-stars .star.active {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+
+        .snack-list-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .snack-list-item .snack-info {
+            flex: 1;
+        }
+
+        .snack-list-item .snack-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .snack-list-item .snack-location {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .snack-list-item .snack-rating {
+            font-size: 1.1rem;
+        }
+
+        /* Passport Stamps */
+        .passport-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .passport-stamp {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .passport-stamp.locked {
+            filter: grayscale(1);
+            opacity: 0.4;
+        }
+
+        .passport-stamp.unlocked {
+            border-color: var(--gold);
+            background: rgba(240, 192, 64, 0.1);
+            filter: none;
+            opacity: 1;
+        }
+
+        .passport-stamp .stamp-emoji {
+            font-size: 2.2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .passport-stamp .stamp-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .passport-stamp.locked .stamp-name {
+            color: var(--text-dim);
+        }
+
+        .passport-stamp .stamp-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 1.2rem;
+        }
+
         /* Progress Tracker */
         .progress-path {
             position: relative;
@@ -584,6 +859,26 @@
             margin-top: 4px;
         }
 
+        /* Map */
+        #map-container {
+            height: 450px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--gold-dark);
+            margin-bottom: 16px;
+        }
+
+        #map-container .leaflet-popup-content-wrapper {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--gold-dark);
+            border-radius: 8px;
+        }
+
+        #map-container .leaflet-popup-tip {
+            background: var(--card-bg);
+        }
+
         /* Buttons */
         .btn {
             background: linear-gradient(135deg, var(--gold-dark), var(--gold));
@@ -633,7 +928,6 @@
             border-radius: 3px;
         }
 
-        /* Fun hover effect for adventure items */
         .quest-card:hover {
             border-color: var(--gold-dark);
             box-shadow: 0 0 20px rgba(240, 192, 64, 0.1);
@@ -684,6 +978,10 @@
                     🏞️ See Deception Falls
                 </p>
             </div>
+
+            <!-- Are We There Yet Button -->
+            <button class="awty-btn" onclick="areWeThereYet()">🚗 Are We There Yet?! 🚗</button>
+            <div class="awty-response" id="awty-response"></div>
         </div>
     </div>
 
@@ -701,6 +999,7 @@
                 🎯 <strong>Side Quest:</strong> Count how many different state license plates you spot!
             </div>
             <span class="drive-time">🚗 ~8 hours driving</span>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> Why don't scientists trust atoms? Because they make up everything!</div>
         </div>
 
         <div class="quest-card">
@@ -713,6 +1012,8 @@
                 🎯 <strong>Side Quest:</strong> Spot the wind turbines on the ridges
             </div>
             <span class="drive-time">🚗 ~6.5 hours driving</span>
+            <div class="activity-box">📍 <strong>Nearby Adventures:</strong> Shoshone Falls (the "Niagara of the West" — 212 feet tall!), Snake River canyon views</div>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> What do you call a sleeping dinosaur? A dino-snore!</div>
         </div>
 
         <div class="quest-card">
@@ -726,6 +1027,8 @@
                 ⚡ <strong>Boss Encounter:</strong> Deception Falls — don't get splashed!
             </div>
             <span class="drive-time">🚗 ~3.5 hours driving</span>
+            <div class="activity-box">📍 <strong>Nearby Adventures:</strong> Ginkgo Petrified Forest State Park, wild horses viewpoint near Vantage</div>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> Why did the waterfall break up with the river? Because it was too clingy!</div>
         </div>
 
         <div class="quest-card">
@@ -739,6 +1042,8 @@
                 🫐 <strong>Side Quest:</strong> How many blueberries can you eat while picking?
             </div>
             <span class="drive-time">🚗 No driving today!</span>
+            <div class="activity-box">📍 <strong>Nearby Adventures:</strong> Dutch village of Lynden (windmill!), Whatcom Falls Park (swimming hole + waterfall)</div>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> What do you call a berry that's rude? A blueberry... wait, that's not right.</div>
         </div>
 
         <div class="quest-card">
@@ -752,6 +1057,7 @@
                 🌟 <strong>Achievement Unlocked:</strong> Enter a new country!
             </div>
             <span class="drive-time">🚗 ~1 hour + game time</span>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> Why don't baseball players join unions? They don't like to be called out!</div>
         </div>
 
         <div class="quest-card">
@@ -768,6 +1074,8 @@
                 🎯 <strong>Side Quest:</strong> Try a food you've never had before!
             </div>
             <span class="drive-time">🚗 Explore on foot!</span>
+            <div class="activity-box">📍 <strong>Must-Do List:</strong> Science World, Aquarium, Stanley Park seawall bike, Capilano Suspension Bridge, Granville Island market, Gastown steam clock (goes off every 15 min!)</div>
+            <div class="joke-box">😂 <strong>Day 6:</strong> What do you call a Canadian bear? A bear, eh?<br>😂 <strong>Day 7:</strong> Why did the French fry refuse to leave Canada? Because it was covered in gravy!</div>
         </div>
 
         <div class="quest-card">
@@ -780,6 +1088,7 @@
                 🎯 <strong>Side Quest:</strong> Spot wildlife — bears, elk, and mountain goats live here!
             </div>
             <span class="drive-time">🚗 ~8 hours driving</span>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> What does a hot spring say when it's embarrassed? I'm steaming!</div>
         </div>
 
         <div class="quest-card">
@@ -793,6 +1102,8 @@
                 ♨️ <strong>Power Up:</strong> Hot springs restore all HP!
             </div>
             <span class="drive-time">🚗 No driving today!</span>
+            <div class="activity-box">📍 <strong>Nearby Adventures:</strong> Radium Hot Springs pools, Sinclair Canyon hike (red rock walls!), Kootenay National Park trails</div>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> Why do cows wear bells? Because their horns don't work!</div>
         </div>
 
         <div class="quest-card">
@@ -805,6 +1116,8 @@
                 🎯 <strong>Side Quest:</strong> Watch for pronghorn antelope — they're the fastest land animals in North America!
             </div>
             <span class="drive-time">🚗 ~7 hours driving</span>
+            <div class="activity-box">📍 <strong>Nearby Adventures:</strong> Rimrocks (sandstone cliffs over the city), Pictograph Cave State Park (2000+ year old cave paintings!), Zoo Montana</div>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> What did Montana say to Idaho? Nothing, states can't talk... or CAN they?</div>
         </div>
 
         <div class="quest-card">
@@ -817,12 +1130,47 @@
                 🎯 <strong>Achievement:</strong> Quest Complete! 🏆
             </div>
             <span class="drive-time">🚗 ~9 hours driving</span>
+            <div class="joke-box">😂 <strong>Joke of the Day:</strong> Why was the car tired when it got home? Because it had a long trip!</div>
+        </div>
+    </div>
+
+    <!-- Tab Content: Map -->
+    <div id="tab-map" class="tab-content">
+        <h2 class="section-title">🗺️ Quest Map 🗺️</h2>
+        <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Tap markers to see what's happening at each stop!</p>
+        <div id="map-container"></div>
+        <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 12px; margin-top: 8px;">
+            <p class="pixel-font" style="font-size: 0.5rem; color: var(--gold); margin-bottom: 6px;">ROUTE LEGEND:</p>
+            <p style="color: var(--text-dim); font-size: 0.8rem; line-height: 1.8;">
+                📍 Commerce City CO → 📍 Burley ID → 📍 Ellensburg WA → 📍 Lynden WA → 📍 Vancouver BC → 📍 Radium Hot Springs BC → 📍 Billings MT → 📍 Home!
+            </p>
         </div>
     </div>
 
     <!-- Tab Content: Fun Facts -->
     <div id="tab-facts" class="tab-content">
         <h2 class="section-title">📚 Adventurer's Codex 📚</h2>
+
+        <!-- Currency Converter -->
+        <div class="converter-box">
+            <h3>💱 Currency Converter: USD ↔ CAD</h3>
+            <div class="converter-input-row">
+                <span class="flag">🇺🇸</span>
+                <input type="number" id="usd-input" placeholder="Enter USD" oninput="convertCurrency('usd')">
+            </div>
+            <div class="converter-result" id="converter-result">🇨🇦 $0.00 CAD</div>
+            <div class="converter-input-row">
+                <span class="flag">🇨🇦</span>
+                <input type="number" id="cad-input" placeholder="Enter CAD" oninput="convertCurrency('cad')">
+            </div>
+            <div class="converter-examples">
+                <strong style="color: var(--gold);">Quick Reference:</strong><br>
+                🍕 A $5 snack in Canada costs about $3.68 USD<br>
+                🎮 A $20 souvenir in Canada = ~$14.71 USD<br>
+                🍦 A $3 ice cream in Canada = ~$2.21 USD<br>
+                ⚾ $15 baseball ticket in Canada = ~$11.03 USD
+            </div>
+        </div>
 
         <div class="fact-category">
             <h3>🥔 Idaho — The Gem State</h3>
@@ -831,6 +1179,7 @@
             <div class="fact-item"><span class="fact-emoji">💎</span>Idaho is the only place in the US where you can find star garnets — a super rare gem with a star pattern inside.</div>
             <div class="fact-item"><span class="fact-emoji">🦅</span>The Peregrine Falcon, which can dive at 240 mph (fastest animal on Earth!), nests in Idaho's Snake River Canyon.</div>
             <div class="fact-item"><span class="fact-emoji">🏔️</span>Hell's Canyon in Idaho is deeper than the Grand Canyon — 7,993 feet deep!</div>
+            <div class="fact-item"><span class="fact-emoji">🌊</span>Shoshone Falls near Twin Falls is 212 feet tall — that's 45 feet TALLER than Niagara Falls!</div>
         </div>
 
         <div class="fact-category">
@@ -840,6 +1189,8 @@
             <div class="fact-item"><span class="fact-emoji">🍎</span>Washington grows more apples than any other state — about 10-12 BILLION apples every year.</div>
             <div class="fact-item"><span class="fact-emoji">🌊</span>Deception Falls (where you're stopping!) drops 60 feet through a narrow rock gorge carved by 10,000 years of water.</div>
             <div class="fact-item"><span class="fact-emoji">🎮</span>Both Nintendo of America and Valve (who make Steam) have their headquarters in Washington!</div>
+            <div class="fact-item"><span class="fact-emoji">🌲</span>Washington's Olympic Rainforest gets 12-14 FEET of rain per year — trees there are draped in moss like a fantasy forest!</div>
+            <div class="fact-item"><span class="fact-emoji">🐌</span>The banana slug (bright yellow, up to 10 inches long!) lives in Washington's forests and is actually helpful — it recycles dead plants.</div>
         </div>
 
         <div class="fact-category">
@@ -849,6 +1200,9 @@
             <div class="fact-item"><span class="fact-emoji">♨️</span>Radium Hot Springs gets its name from the trace amounts of radon gas in the water (totally safe!) — the water is naturally heated to 40°C (104°F) by the Earth itself.</div>
             <div class="fact-item"><span class="fact-emoji">🎬</span>Vancouver is called "Hollywood North" because SO many movies and TV shows are filmed there. Lots of Marvel movies were filmed in Vancouver!</div>
             <div class="fact-item"><span class="fact-emoji">🦑</span>BC's coast has the Ogopogo — Canada's version of the Loch Ness Monster, living in Okanagan Lake. Sightings go back hundreds of years!</div>
+            <div class="fact-item"><span class="fact-emoji">🍁</span>Canada's $1 coin is called a "Loonie" because it has a loon (a bird) on it. The $2 coin? A "Toonie!"</div>
+            <div class="fact-item"><span class="fact-emoji">🏔️</span>BC has over 300 provincial parks — more than most entire countries have national parks!</div>
+            <div class="fact-item"><span class="fact-emoji">⏰</span>The Gastown Steam Clock in Vancouver is powered by steam and whistles every 15 minutes. It was built in 1977 to cover a steam vent!</div>
         </div>
 
         <div class="fact-category">
@@ -858,6 +1212,8 @@
             <div class="fact-item"><span class="fact-emoji">⚡</span>Montana gets some of the most intense lightning storms in the country because of its flat terrain meeting the Rocky Mountains.</div>
             <div class="fact-item"><span class="fact-emoji">🏔️</span>Glacier National Park in Montana has over 700 miles of trails and 130 named lakes. Its glaciers have been there for 7,000 years (but they're shrinking).</div>
             <div class="fact-item"><span class="fact-emoji">🌡️</span>Montana holds the record for the biggest temperature change in one day: 103°F drop in 24 hours (from 44°F to -56°F) in 1916!</div>
+            <div class="fact-item"><span class="fact-emoji">🎨</span>Pictograph Cave near Billings has cave paintings over 2,000 years old — ancient people drew animals and hunting scenes there!</div>
+            <div class="fact-item"><span class="fact-emoji">🦬</span>Before settlers came, 30-60 MILLION bison roamed Montana's plains. Now there are about 500,000 in all of North America.</div>
         </div>
 
         <div class="fact-category">
@@ -865,6 +1221,15 @@
             <div class="fact-item"><span class="fact-emoji">🦬</span>Yellowstone has a supervolcano underneath it. If it erupted, it would cover most of the US in ash — but don't worry, it's not expected to blow for thousands of years!</div>
             <div class="fact-item"><span class="fact-emoji">🤠</span>Wyoming has the smallest population of any US state — only about 580,000 people. Your school probably has more kids than some Wyoming towns!</div>
             <div class="fact-item"><span class="fact-emoji">🏜️</span>Devils Tower in Wyoming was the first National Monument in the US and looks like a giant tree stump made of rock. It was featured in "Close Encounters of the Third Kind."</div>
+            <div class="fact-item"><span class="fact-emoji">🦌</span>Wyoming has more pronghorn antelope than people! They can run 55 mph and are the second fastest land animal on Earth.</div>
+        </div>
+
+        <div class="fact-category">
+            <h3>🌎 Epic Road Trip Facts</h3>
+            <div class="fact-item"><span class="fact-emoji">🚗</span>The longest road in the world is the Pan-American Highway at 19,000 miles — your trip is about 2,800 miles, so you'll drive about 15% of it!</div>
+            <div class="fact-item"><span class="fact-emoji">🏔️</span>The Rocky Mountains stretch 3,000 miles from New Mexico all the way to northern British Columbia — you'll cross them TWICE!</div>
+            <div class="fact-item"><span class="fact-emoji">🌊</span>The Columbia River Gorge (you'll drive through it!) is 80 miles long and up to 4,000 feet deep. It's the only sea-level route through the Cascades.</div>
+            <div class="fact-item"><span class="fact-emoji">🗺️</span>The US-Canada border is 5,525 miles long — the longest international border in the world between two countries!</div>
         </div>
     </div>
 
@@ -875,7 +1240,7 @@
         <div class="game-selector">
             <div class="game-btn active" onclick="showGame('trivia')">
                 <span class="game-icon">🧠</span>
-                Trivia Quest
+                Trivia
             </div>
             <div class="game-btn" onclick="showGame('wyr')">
                 <span class="game-icon">🤔</span>
@@ -883,11 +1248,19 @@
             </div>
             <div class="game-btn" onclick="showGame('bingo')">
                 <span class="game-icon">🎯</span>
-                Road Bingo
+                Bingo
             </div>
             <div class="game-btn" onclick="showGame('plates')">
                 <span class="game-icon">🚗</span>
-                License Plates
+                Plates
+            </div>
+            <div class="game-btn" onclick="showGame('scavenger')">
+                <span class="game-icon">📸</span>
+                Photo Hunt
+            </div>
+            <div class="game-btn" onclick="showGame('snacks')">
+                <span class="game-icon">🍿</span>
+                Snacks
             </div>
         </div>
 
@@ -934,6 +1307,38 @@
             <div class="plate-section-title">🇨🇦 Canadian Provinces</div>
             <div class="plate-grid" id="ca-plates"></div>
         </div>
+
+        <!-- PHOTO SCAVENGER HUNT -->
+        <div id="game-scavenger" class="game-area">
+            <h3 style="text-align:center; color: var(--gold); font-family: 'Cinzel', serif; margin-bottom: 4px;">📸 Photo Scavenger Hunt</h3>
+            <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 16px;">Take photos of these things during the trip! Tap to check off.</p>
+            <div class="plate-counter">Completed: <span id="scavenger-count">0</span> / 15 📸</div>
+            <ul class="scavenger-list" id="scavenger-list"></ul>
+        </div>
+
+        <!-- SNACK TRACKER -->
+        <div id="game-snacks" class="game-area">
+            <h3 style="text-align:center; color: var(--gold); font-family: 'Cinzel', serif; margin-bottom: 4px;">🍿 Gas Station Snack Tracker</h3>
+            <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 16px;">Rate every snack! Find the ultimate road trip snack.</p>
+            
+            <div class="snack-form">
+                <input type="text" id="snack-name" placeholder="Snack name (e.g. Takis, Beef Jerky)">
+                <input type="text" id="snack-location" placeholder="Location (e.g. Burley gas station)">
+                <div class="snack-stars" id="snack-stars">
+                    <span class="star" onclick="setSnackRating(1)">⭐</span>
+                    <span class="star" onclick="setSnackRating(2)">⭐</span>
+                    <span class="star" onclick="setSnackRating(3)">⭐</span>
+                    <span class="star" onclick="setSnackRating(4)">⭐</span>
+                    <span class="star" onclick="setSnackRating(5)">⭐</span>
+                </div>
+                <div style="text-align:center;">
+                    <button class="btn" onclick="addSnack()">Add Snack 🍫</button>
+                </div>
+            </div>
+
+            <h4 style="color: var(--gold); font-family: 'Cinzel', serif; margin: 16px 0 8px;">🏆 Snack Leaderboard</h4>
+            <div id="snack-list"></div>
+        </div>
     </div>
 
     <!-- Tab Content: Progress -->
@@ -941,13 +1346,16 @@
         <h2 class="section-title">🗺️ Quest Progress 🗺️</h2>
         <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 20px;">Tap a leg to mark it complete! ✅</p>
         
-        <div class="progress-path" id="progress-path">
-            <!-- Filled by JS -->
-        </div>
+        <div class="progress-path" id="progress-path"></div>
 
         <div style="text-align:center; margin-top: 16px;">
             <button class="btn-outline" onclick="resetProgress()">Reset Progress 🔄</button>
         </div>
+
+        <!-- Passport Stamps -->
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.2rem; text-align: center; margin-top: 30px; margin-bottom: 4px;">🛂 Passport Stamps</h3>
+        <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Tap to stamp when you arrive! Collect them all!</p>
+        <div class="passport-grid" id="passport-grid"></div>
     </div>
 
     <!-- Bottom Navigation -->
@@ -960,6 +1368,10 @@
             <span class="tab-icon">📜</span>
             Journey
         </button>
+        <button class="tab-btn" onclick="switchTab('map')">
+            <span class="tab-icon">🗺️</span>
+            Map
+        </button>
         <button class="tab-btn" onclick="switchTab('facts')">
             <span class="tab-icon">📚</span>
             Facts
@@ -969,7 +1381,7 @@
             Games
         </button>
         <button class="tab-btn" onclick="switchTab('progress')">
-            <span class="tab-icon">🗺️</span>
+            <span class="tab-icon">🏆</span>
             Progress
         </button>
     </nav>
@@ -980,8 +1392,21 @@
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('tab-' + tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        // Highlight the correct tab button
+        const btns = document.querySelectorAll('.tab-btn');
+        const tabOrder = ['countdown','journey','map','facts','games','progress'];
+        const idx = tabOrder.indexOf(tabId);
+        if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+        // Init map on first view
+        if (tabId === 'map' && !mapInitialized) {
+            mapInitialized = true;
+            setTimeout(initMap, 200);
+        }
+        if (tabId === 'map' && window.tripMap) {
+            setTimeout(() => window.tripMap.invalidateSize(), 100);
+        }
     }
+    let mapInitialized = false;
 
     // ============ COUNTDOWN ============
     function updateCountdown() {
@@ -1002,6 +1427,54 @@
     }
     updateCountdown();
     setInterval(updateCountdown, 60000);
+
+    // ============ ARE WE THERE YET ============
+    const awtyResponses = [
+        "Not yet, adventurer! The quest continues! ⚔️",
+        "Almost there, hero! Keep your eyes on the horizon! 🌅",
+        "Check the map, warrior! Every mile is XP! 🗺️",
+        "Patience, young warrior! Great quests take time! ⏳",
+        "The journey IS the adventure! Enjoy the ride! 🚗",
+        "A true hero never asks... okay fine, not yet! 😄",
+        "Link didn't rush through Hyrule, did he? 🏰",
+        "We're closer than we were 5 minutes ago! 📍",
+        "If we were in Minecraft, we'd be at render distance! 🎮",
+        "Rocky from Project Hail Mary would say: 'Question. How much longer?' 👽",
+        "In the words of Gandalf: 'A wizard arrives precisely when he means to!' 🧙",
+        "The snacks haven't run out yet, so we're fine! 🍿",
+        "Every great story needs a long journey first! 📖",
+        "Are we there yet? Nope! Are we having fun? YES! 🎉"
+    ];
+
+    function areWeThereYet() {
+        const response = awtyResponses[Math.floor(Math.random() * awtyResponses.length)];
+        const el = document.getElementById('awty-response');
+        el.textContent = response;
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = 'fadeIn 0.3s ease';
+    }
+
+    // ============ CURRENCY CONVERTER ============
+    const USD_TO_CAD = 1.36;
+
+    function convertCurrency(from) {
+        const usdInput = document.getElementById('usd-input');
+        const cadInput = document.getElementById('cad-input');
+        const result = document.getElementById('converter-result');
+
+        if (from === 'usd') {
+            const usd = parseFloat(usdInput.value) || 0;
+            const cad = (usd * USD_TO_CAD).toFixed(2);
+            cadInput.value = usd > 0 ? cad : '';
+            result.textContent = `🇨🇦 $${cad} CAD`;
+        } else {
+            const cad = parseFloat(cadInput.value) || 0;
+            const usd = (cad / USD_TO_CAD).toFixed(2);
+            usdInput.value = cad > 0 ? usd : '';
+            result.textContent = `🇺🇸 $${usd} USD`;
+        }
+    }
 
     // ============ TRIVIA GAME ============
     const triviaQuestions = [
@@ -1199,7 +1672,6 @@
     }
 
     function checkBingo() {
-        // Check rows, cols, diagonals
         for (let r = 0; r < 5; r++) {
             if ([0,1,2,3,4].every(c => bingoState[r*5+c].marked)) { alert("🎉 BINGO! Row " + (r+1) + "!"); return; }
         }
@@ -1239,6 +1711,96 @@
     }
 
     renderPlates();
+
+    // ============ PHOTO SCAVENGER HUNT ============
+    const scavengerItems = [
+        "A funny road sign",
+        "Someone making a silly face at a landmark",
+        "A waterfall",
+        "Food from another country",
+        "An animal in the wild",
+        "The family at a state/province border sign",
+        "A sunset or sunrise",
+        "Something you've never seen before",
+        "A mountain peak",
+        "Your reflection in water",
+        "A cool license plate",
+        "The tallest thing you can find",
+        "A flower or plant you don't recognize",
+        "A bridge",
+        "The whole family in the car"
+    ];
+
+    let scavengerState = JSON.parse(localStorage.getItem('scavengerState') || '[]');
+    if (scavengerState.length === 0) {
+        scavengerState = scavengerItems.map(() => false);
+    }
+
+    function renderScavenger() {
+        const list = document.getElementById('scavenger-list');
+        list.innerHTML = scavengerItems.map((item, i) => `
+            <li class="scavenger-item ${scavengerState[i] ? 'completed' : ''}" onclick="toggleScavenger(${i})">
+                <div class="check">${scavengerState[i] ? '✅' : ''}</div>
+                <span class="item-text">📸 ${item}</span>
+            </li>
+        `).join('');
+        document.getElementById('scavenger-count').textContent = scavengerState.filter(s => s).length;
+    }
+
+    function toggleScavenger(i) {
+        scavengerState[i] = !scavengerState[i];
+        localStorage.setItem('scavengerState', JSON.stringify(scavengerState));
+        renderScavenger();
+    }
+
+    renderScavenger();
+
+    // ============ SNACK TRACKER ============
+    let snacks = JSON.parse(localStorage.getItem('snackTracker') || '[]');
+    let currentSnackRating = 0;
+
+    function setSnackRating(rating) {
+        currentSnackRating = rating;
+        const stars = document.querySelectorAll('#snack-stars .star');
+        stars.forEach((star, i) => {
+            star.classList.toggle('active', i < rating);
+        });
+    }
+
+    function addSnack() {
+        const name = document.getElementById('snack-name').value.trim();
+        const location = document.getElementById('snack-location').value.trim();
+        if (!name) { alert('Enter a snack name!'); return; }
+        if (currentSnackRating === 0) { alert('Tap stars to rate it!'); return; }
+
+        snacks.push({ name, location: location || 'Unknown', rating: currentSnackRating });
+        snacks.sort((a, b) => b.rating - a.rating);
+        localStorage.setItem('snackTracker', JSON.stringify(snacks));
+
+        document.getElementById('snack-name').value = '';
+        document.getElementById('snack-location').value = '';
+        setSnackRating(0);
+        renderSnacks();
+    }
+
+    function renderSnacks() {
+        const list = document.getElementById('snack-list');
+        if (snacks.length === 0) {
+            list.innerHTML = '<p style="text-align:center; color: var(--text-dim); font-size: 0.85rem;">No snacks rated yet! Hit a gas station and start rating! 🍫</p>';
+            return;
+        }
+        list.innerHTML = snacks.map((s, i) => `
+            <div class="snack-list-item">
+                <div class="snack-info">
+                    <div class="snack-name">${i === 0 ? '👑 ' : ''}${s.name}</div>
+                    <div class="snack-location">📍 ${s.location}</div>
+                </div>
+                <div class="snack-rating">${'⭐'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</div>
+            </div>
+        `).join('');
+    }
+
+    renderSnacks();
 
     // ============ GAME SWITCHER ============
     function showGame(gameId) {
@@ -1291,6 +1853,99 @@
     }
 
     renderProgress();
+
+    // ============ PASSPORT STAMPS ============
+    const passportStamps = [
+        { name: "Colorado", emoji: "🏔️", flag: "🇺🇸" },
+        { name: "Wyoming", emoji: "🤠", flag: "🇺🇸" },
+        { name: "Idaho", emoji: "🥔", flag: "🇺🇸" },
+        { name: "Oregon", emoji: "🌲", flag: "🇺🇸" },
+        { name: "Washington", emoji: "🍎", flag: "🇺🇸" },
+        { name: "British Columbia", emoji: "🍁", flag: "🇨🇦" },
+        { name: "Montana", emoji: "🦬", flag: "🇺🇸" }
+    ];
+
+    let unlockedStamps = JSON.parse(localStorage.getItem('passportStamps') || '[]');
+
+    function renderPassport() {
+        const grid = document.getElementById('passport-grid');
+        grid.innerHTML = passportStamps.map((stamp, i) => {
+            const unlocked = unlockedStamps.includes(i);
+            return `
+                <div class="passport-stamp ${unlocked ? 'unlocked' : 'locked'}" onclick="toggleStamp(${i})">
+                    ${unlocked ? '<span class="stamp-badge">✅</span>' : ''}
+                    <span class="stamp-emoji">${stamp.emoji}</span>
+                    <span class="stamp-name">${stamp.flag} ${stamp.name}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function toggleStamp(i) {
+        if (unlockedStamps.includes(i)) {
+            unlockedStamps = unlockedStamps.filter(s => s !== i);
+        } else {
+            unlockedStamps.push(i);
+        }
+        localStorage.setItem('passportStamps', JSON.stringify(unlockedStamps));
+        renderPassport();
+    }
+
+    renderPassport();
+
+    // ============ INTERACTIVE MAP ============
+    function initMap() {
+        const stops = [
+            { lat: 39.8083, lng: -104.9344, name: "Commerce City, CO", day: "Day 1 - Start", desc: "🏠 Home base! The adventure begins here." },
+            { lat: 42.5360, lng: -113.7929, name: "Burley, ID", day: "Day 1 - Night", desc: "🥔 First camp! You survived 8 hours of driving through Wyoming." },
+            { lat: 46.9965, lng: -120.5478, name: "Ellensburg, WA", day: "Day 2 - Night", desc: "🌾 Halfway through! Crossed the Columbia River Gorge today." },
+            { lat: 48.9466, lng: -122.4527, name: "Lynden, WA", day: "Days 3-4", desc: "💒 Wedding time! Blueberry picking + Trevor's wedding." },
+            { lat: 49.2827, lng: -123.1207, name: "Vancouver, BC", day: "Days 5-7", desc: "🇨🇦 Canada! Baseball, Science World, Stanley Park, and more!" },
+            { lat: 50.6199, lng: -116.0491, name: "Radium Hot Springs, BC", day: "Days 8-9", desc: "♨️ Hot springs + Poutine Queen! HP fully restored!" },
+            { lat: 45.7833, lng: -108.5007, name: "Billings, MT", day: "Day 10", desc: "🦬 Big Sky Country! Rimrocks and cowboy territory." }
+        ];
+
+        const map = L.map('map-container').setView([46.5, -114], 5);
+        window.tripMap = map;
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(map);
+
+        // Custom gold marker icon
+        const goldIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background: #f0c040; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #b8860b; box-shadow: 0 0 8px rgba(240,192,64,0.6);"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7],
+            popupAnchor: [0, -10]
+        });
+
+        // Add markers
+        const coords = [];
+        stops.forEach(stop => {
+            coords.push([stop.lat, stop.lng]);
+            L.marker([stop.lat, stop.lng], { icon: goldIcon })
+                .addTo(map)
+                .bindPopup(`<strong style="color:#f0c040;">${stop.name}</strong><br><em>${stop.day}</em><br>${stop.desc}`);
+        });
+
+        // Add return line to Commerce City
+        coords.push([39.8083, -104.9344]);
+
+        // Draw route polyline
+        L.polyline(coords, {
+            color: '#f0c040',
+            weight: 3,
+            opacity: 0.8,
+            dashArray: '10, 8'
+        }).addTo(map);
+
+        // Fit map to show entire route
+        map.fitBounds(L.latLngBounds(coords).pad(0.1));
+    }
+
     </script>
 </body>
 </html>
