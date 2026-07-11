@@ -859,24 +859,209 @@
             margin-top: 4px;
         }
 
-        /* Map */
+        /* Map - Zelda Style */
         #map-container {
             height: 450px;
             border-radius: 12px;
             overflow: hidden;
-            border: 2px solid var(--gold-dark);
+            border: 3px solid var(--gold);
             margin-bottom: 16px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(240, 192, 64, 0.3), inset 0 0 30px rgba(0,0,0,0.3);
+        }
+
+        #map-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 999;
+            border-radius: 12px;
+            box-shadow: inset 0 0 60px rgba(26, 26, 46, 0.5);
+            background: 
+                radial-gradient(ellipse at center, transparent 60%, rgba(26, 26, 46, 0.4) 100%);
+        }
+
+        #map-container .leaflet-tile-pane {
+            filter: saturate(0.7) brightness(0.85) sepia(0.25) hue-rotate(-10deg);
         }
 
         #map-container .leaflet-popup-content-wrapper {
-            background: var(--card-bg);
+            background: rgba(22, 33, 62, 0.95);
             color: var(--text);
-            border: 1px solid var(--gold-dark);
+            border: 2px solid var(--gold);
             border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            box-shadow: 0 0 15px rgba(240, 192, 64, 0.3);
         }
 
         #map-container .leaflet-popup-tip {
+            background: rgba(22, 33, 62, 0.95);
+            border: 1px solid var(--gold);
+        }
+
+        .zelda-marker {
+            position: relative;
+        }
+
+        .zelda-marker-pin {
+            width: 24px;
+            height: 32px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zelda-marker-pin::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 4px;
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border: 2px solid #8B6914;
+            transform: rotate(45deg);
+            box-shadow: 0 0 8px rgba(240, 192, 64, 0.8);
+        }
+
+        .zelda-marker-pin::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 12px solid #8B6914;
+        }
+
+        .zelda-marker-icon {
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            z-index: 2;
+            text-shadow: 0 0 4px rgba(0,0,0,0.8);
+        }
+
+        .map-legend-zelda {
+            background: rgba(22, 33, 62, 0.95);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .map-legend-zelda::before {
+            content: '🗺️';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            background: var(--darker-bg);
+            padding: 0 8px;
+        }
+
+        /* Music/Playlist */
+        .playlist-section {
+            margin-bottom: 20px;
+        }
+
+        .playlist-card {
             background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+
+        .playlist-card:hover {
+            border-color: var(--gold-dark);
+        }
+
+        .playlist-card h4 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .playlist-card .playlist-desc {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .playlist-card .playlist-songs {
+            list-style: none;
+            padding: 0;
+        }
+
+        .playlist-card .playlist-songs li {
+            color: var(--text);
+            font-size: 0.85rem;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .playlist-card .playlist-songs li:last-child {
+            border-bottom: none;
+        }
+
+        .playlist-card .playlist-songs .song-num {
+            color: var(--gold-dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 18px;
+        }
+
+        .playlist-card .playlist-songs .song-artist {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+        }
+
+        .spotify-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1DB954;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .spotify-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+        }
+
+        .playlist-location-tag {
+            display: inline-block;
+            background: rgba(240, 192, 64, 0.15);
+            border: 1px solid var(--gold-dark);
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            color: var(--gold);
+            margin-bottom: 8px;
         }
 
         /* Buttons */
@@ -1136,14 +1321,160 @@
 
     <!-- Tab Content: Map -->
     <div id="tab-map" class="tab-content">
-        <h2 class="section-title">🗺️ Quest Map 🗺️</h2>
-        <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Tap markers to see what's happening at each stop!</p>
+        <h2 class="section-title">🗺️ The Realm Map 🗺️</h2>
+        <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Tap the Sheikah markers to reveal quest details!</p>
         <div id="map-container"></div>
-        <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 12px; margin-top: 8px;">
-            <p class="pixel-font" style="font-size: 0.5rem; color: var(--gold); margin-bottom: 6px;">ROUTE LEGEND:</p>
-            <p style="color: var(--text-dim); font-size: 0.8rem; line-height: 1.8;">
-                📍 Commerce City CO → 📍 Burley ID → 📍 Ellensburg WA → 📍 Lynden WA → 📍 Vancouver BC → 📍 Radium Hot Springs BC → 📍 Billings MT → 📍 Home!
+        <div class="map-legend-zelda">
+            <p class="pixel-font" style="font-size: 0.5rem; color: var(--gold); margin-bottom: 8px; text-align: center;">QUEST PATH</p>
+            <p style="color: var(--text-dim); font-size: 0.8rem; line-height: 2; text-align: center;">
+                🏠 Commerce City → 🥔 Burley → 🌾 Ellensburg → � Lynden → 🇨🇦 Vancouver → ♨️ Radium Springs → 🦬 Billings → 🏠 Home
             </p>
+        </div>
+    </div>
+
+    <!-- Tab Content: Music -->
+    <div id="tab-music" class="tab-content">
+        <h2 class="section-title">🎵 Road Trip Soundtrack 🎵</h2>
+        <p style="text-align:center; color: var(--text-dim); font-size: 0.85rem; margin-bottom: 20px;">Themed playlists for every part of the adventure. Hit play and watch the miles disappear!</p>
+
+        <div class="playlist-section">
+            <div class="playlist-card">
+                <span class="playlist-location-tag">🏔️ Colorado → Idaho (Day 1)</span>
+                <h4>⚔️ Quest Begins - Epic Launch Mix</h4>
+                <div class="playlist-desc">Big energy for the big departure. Mountains, open road, adventure mode ON.</div>
+                <ul class="playlist-songs">
+                    <li><span class="song-num">1.</span> On Top of the World <span class="song-artist">- Imagine Dragons</span></li>
+                    <li><span class="song-num">2.</span> Thunder <span class="song-artist">- Imagine Dragons</span></li>
+                    <li><span class="song-num">3.</span> Believer <span class="song-artist">- Imagine Dragons</span></li>
+                    <li><span class="song-num">4.</span> Adventure of a Lifetime <span class="song-artist">- Coldplay</span></li>
+                    <li><span class="song-num">5.</span> Hall of Fame <span class="song-artist">- The Script</span></li>
+                    <li><span class="song-num">6.</span> Warriors <span class="song-artist">- Imagine Dragons</span></li>
+                    <li><span class="song-num">7.</span> High Hopes <span class="song-artist">- Panic! At The Disco</span></li>
+                    <li><span class="song-num">8.</span> Unstoppable <span class="song-artist">- The Score</span></li>
+                    <li><span class="song-num">9.</span> Whatever It Takes <span class="song-artist">- Imagine Dragons</span></li>
+                    <li><span class="song-num">10.</span> Eye of the Tiger <span class="song-artist">- Survivor</span></li>
+                </ul>
+                <a href="https://open.spotify.com/search/road%20trip%20epic" target="_blank" class="spotify-btn">🎧 Find on Spotify</a>
+            </div>
+
+            <div class="playlist-card">
+                <span class="playlist-location-tag">🌲 Idaho → Washington (Day 2)</span>
+                <h4>🏔️ Mountain Crossing Vibes</h4>
+                <div class="playlist-desc">Cruising through gorges, past wind turbines, and into evergreen forests.</div>
+                <ul class="playlist-songs">
+                    <li><span class="song-num">1.</span> Life is a Highway <span class="song-artist">- Rascal Flatts</span></li>
+                    <li><span class="song-num">2.</span> Take Me Home, Country Roads <span class="song-artist">- John Denver</span></li>
+                    <li><span class="song-num">3.</span> Shut Up and Drive <span class="song-artist">- Rihanna</span></li>
+                    <li><span class="song-num">4.</span> I'm Gonna Be (500 Miles) <span class="song-artist">- The Proclaimers</span></li>
+                    <li><span class="song-num">5.</span> Born to Be Wild <span class="song-artist">- Steppenwolf</span></li>
+                    <li><span class="song-num">6.</span> Free Bird <span class="song-artist">- Lynyrd Skynyrd</span></li>
+                    <li><span class="song-num">7.</span> Runnin' Down a Dream <span class="song-artist">- Tom Petty</span></li>
+                    <li><span class="song-num">8.</span> The Middle <span class="song-artist">- Jimmy Eat World</span></li>
+                    <li><span class="song-num">9.</span> Come and Get Your Love <span class="song-artist">- Redbone</span></li>
+                    <li><span class="song-num">10.</span> Mr. Blue Sky <span class="song-artist">- ELO</span></li>
+                </ul>
+                <a href="https://open.spotify.com/search/classic%20road%20trip" target="_blank" class="spotify-btn">🎧 Find on Spotify</a>
+            </div>
+
+            <div class="playlist-card">
+                <span class="playlist-location-tag">🌊 Washington Coast (Days 3-4)</span>
+                <h4>🌲 Pacific Northwest Chill</h4>
+                <div class="playlist-desc">Waterfalls, giant trees, and wedding vibes. Chill but still awesome.</div>
+                <ul class="playlist-songs">
+                    <li><span class="song-num">1.</span> Riptide <span class="song-artist">- Vance Joy</span></li>
+                    <li><span class="song-num">2.</span> Ho Hey <span class="song-artist">- The Lumineers</span></li>
+                    <li><span class="song-num">3.</span> Home <span class="song-artist">- Edward Sharpe</span></li>
+                    <li><span class="song-num">4.</span> I Will Wait <span class="song-artist">- Mumford & Sons</span></li>
+                    <li><span class="song-num">5.</span> Budapest <span class="song-artist">- George Ezra</span></li>
+                    <li><span class="song-num">6.</span> Stolen Dance <span class="song-artist">- Milky Chance</span></li>
+                    <li><span class="song-num">7.</span> Ophelia <span class="song-artist">- The Lumineers</span></li>
+                    <li><span class="song-num">8.</span> Banana Pancakes <span class="song-artist">- Jack Johnson</span></li>
+                    <li><span class="song-num">9.</span> Better Together <span class="song-artist">- Jack Johnson</span></li>
+                    <li><span class="song-num">10.</span> Three Little Birds <span class="song-artist">- Bob Marley</span></li>
+                </ul>
+                <a href="https://open.spotify.com/search/pacific%20northwest%20chill" target="_blank" class="spotify-btn">🎧 Find on Spotify</a>
+            </div>
+
+            <div class="playlist-card">
+                <span class="playlist-location-tag">🇨🇦 Vancouver, BC (Days 5-7)</span>
+                <h4>🏙️ Canada Mode - City Explorer</h4>
+                <div class="playlist-desc">New country energy! Baseball, aquarium, city walks, and exploring.</div>
+                <ul class="playlist-songs">
+                    <li><span class="song-num">1.</span> Uptown Funk <span class="song-artist">- Bruno Mars</span></li>
+                    <li><span class="song-num">2.</span> Can't Stop the Feeling <span class="song-artist">- Justin Timberlake</span></li>
+                    <li><span class="song-num">3.</span> Happy <span class="song-artist">- Pharrell Williams</span></li>
+                    <li><span class="song-num">4.</span> Shut Up and Dance <span class="song-artist">- Walk the Moon</span></li>
+                    <li><span class="song-num">5.</span> Don't Stop Me Now <span class="song-artist">- Queen</span></li>
+                    <li><span class="song-num">6.</span> Walking on Sunshine <span class="song-artist">- Katrina & The Waves</span></li>
+                    <li><span class="song-num">7.</span> Shake It Off <span class="song-artist">- Taylor Swift</span></li>
+                    <li><span class="song-num">8.</span> Best Day of My Life <span class="song-artist">- American Authors</span></li>
+                    <li><span class="song-num">9.</span> September <span class="song-artist">- Earth, Wind & Fire</span></li>
+                    <li><span class="song-num">10.</span> Celebration <span class="song-artist">- Kool & The Gang</span></li>
+                </ul>
+                <a href="https://open.spotify.com/search/feel%20good%20hits" target="_blank" class="spotify-btn">🎧 Find on Spotify</a>
+            </div>
+
+            <div class="playlist-card">
+                <span class="playlist-location-tag">♨️ Radium Hot Springs (Days 8-9)</span>
+                <h4>🌄 Mountain Zen - Hot Springs Mix</h4>
+                <div class="playlist-desc">Soaking in hot springs, eating poutine, surrounded by the Canadian Rockies. Pure calm.</div>
+                <ul class="playlist-songs">
+                    <li><span class="song-num">1.</span> Here Comes the Sun <span class="song-artist">- The Beatles</span></li>
+                    <li><span class="song-num">2.</span> Island in the Sun <span class="song-artist">- Weezer</span></li>
+                    <li><span class="song-num">3.</span> Somewhere Over the Rainbow <span class="song-artist">- IZ</span></li>
+                    <li><span class="song-num">4.</span> Sunday Morning <span class="song-artist">- Maroon 5</span></li>
+                    <li><span class="song-num">5.</span> Yellow <span class="song-artist">- Coldplay</span></li>
+                    <li><span class="song-num">6.</span> Don't Worry Be Happy <span class="song-artist">- Bobby McFerrin</span></li>
+                    <li><span class="song-num">7.</span> Good Vibrations <span class="song-artist">- The Beach Boys</span></li>
+                    <li><span class="song-num">8.</span> Lean On Me <span class="song-artist">- Bill Withers</span></li>
+                    <li><span class="song-num">9.</span> What a Wonderful World <span class="song-artist">- Louis Armstrong</span></li>
+                    <li><span class="song-num">10.</span> Over the Rainbow <span class="song-artist">- IZ</span></li>
+                </ul>
+                <a href="https://open.spotify.com/search/chill%20acoustic%20vibes" target="_blank" class="spotify-btn">🎧 Find on Spotify</a>
+            </div>
+
+            <div class="playlist-card">
+                <span class="playlist-location-tag">🦬 Montana → Home (Days 10-11)</span>
+                <h4>🏠 The Final Stretch - Homeward Bound</h4>
+                <div class="playlist-desc">Long drive home through Big Sky Country. Tired but happy. Sing along loud!</div>
+                <ul class="playlist-songs">
+                    <li><span class="song-num">1.</span> Homeward Bound <span class="song-artist">- Simon & Garfunkel</span></li>
+                    <li><span class="song-num">2.</span> We Are the Champions <span class="song-artist">- Queen</span></li>
+                    <li><span class="song-num">3.</span> Bohemian Rhapsody <span class="song-artist">- Queen</span></li>
+                    <li><span class="song-num">4.</span> Africa <span class="song-artist">- Toto</span></li>
+                    <li><span class="song-num">5.</span> Sweet Home Alabama <span class="song-artist">- Lynyrd Skynyrd</span></li>
+                    <li><span class="song-num">6.</span> Living on a Prayer <span class="song-artist">- Bon Jovi</span></li>
+                    <li><span class="song-num">7.</span> Don't Stop Believin' <span class="song-artist">- Journey</span></li>
+                    <li><span class="song-num">8.</span> Hey Jude <span class="song-artist">- The Beatles</span></li>
+                    <li><span class="song-num">9.</span> Closing Time <span class="song-artist">- Semisonic</span></li>
+                    <li><span class="song-num">10.</span> Home <span class="song-artist">- Phillip Phillips</span></li>
+                </ul>
+                <a href="https://open.spotify.com/search/driving%20home%20playlist" target="_blank" class="spotify-btn">🎧 Find on Spotify</a>
+            </div>
+
+            <div class="playlist-card">
+                <span class="playlist-location-tag">🎮 Anytime!</span>
+                <h4>🎮 Gaming Soundtrack Mix</h4>
+                <div class="playlist-desc">Epic video game music for when you want to feel like you're on a real quest.</div>
+                <ul class="playlist-songs">
+                    <li><span class="song-num">1.</span> Zelda Main Theme <span class="song-artist">- BOTW OST</span></li>
+                    <li><span class="song-num">2.</span> Minecraft - Sweden <span class="song-artist">- C418</span></li>
+                    <li><span class="song-num">3.</span> Halo Theme <span class="song-artist">- Martin O'Donnell</span></li>
+                    <li><span class="song-num">4.</span> Gerudo Valley <span class="song-artist">- Zelda OoT OST</span></li>
+                    <li><span class="song-num">5.</span> Concerning Hobbits <span class="song-artist">- Howard Shore</span></li>
+                    <li><span class="song-num">6.</span> Minecraft - Wet Hands <span class="song-artist">- C418</span></li>
+                    <li><span class="song-num">7.</span> Hateno Village <span class="song-artist">- BOTW OST</span></li>
+                    <li><span class="song-num">8.</span> Riders of Rohan <span class="song-artist">- Howard Shore</span></li>
+                    <li><span class="song-num">9.</span> Dragon Roost Island <span class="song-artist">- Wind Waker OST</span></li>
+                    <li><span class="song-num">10.</span> The Shire <span class="song-artist">- Howard Shore</span></li>
+                </ul>
+                <a href="https://open.spotify.com/search/zelda%20minecraft%20chill%20gaming" target="_blank" class="spotify-btn">🎧 Find on Spotify</a>
+            </div>
+        </div>
+
+        <div style="text-align:center; padding: 16px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px;">
+            <p class="pixel-font" style="font-size: 0.55rem; color: var(--gold); margin-bottom: 8px;">PRO TIP</p>
+            <p style="color: var(--text-dim); font-size: 0.85rem;">Download playlists on WiFi before the trip so they work offline in the mountains! 🏔️📱</p>
         </div>
     </div>
 
@@ -1372,6 +1703,10 @@
             <span class="tab-icon">🗺️</span>
             Map
         </button>
+        <button class="tab-btn" onclick="switchTab('music')">
+            <span class="tab-icon">🎵</span>
+            Music
+        </button>
         <button class="tab-btn" onclick="switchTab('facts')">
             <span class="tab-icon">📚</span>
             Facts
@@ -1394,7 +1729,7 @@
         document.getElementById('tab-' + tabId).classList.add('active');
         // Highlight the correct tab button
         const btns = document.querySelectorAll('.tab-btn');
-        const tabOrder = ['countdown','journey','map','facts','games','progress'];
+        const tabOrder = ['countdown','journey','map','music','facts','games','progress'];
         const idx = tabOrder.indexOf(tabId);
         if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
         // Init map on first view
@@ -1893,53 +2228,87 @@
 
     renderPassport();
 
-    // ============ INTERACTIVE MAP ============
+    // ============ INTERACTIVE MAP (ZELDA STYLE) ============
     function initMap() {
         const stops = [
-            { lat: 39.8083, lng: -104.9344, name: "Commerce City, CO", day: "Day 1 - Start", desc: "🏠 Home base! The adventure begins here." },
-            { lat: 42.5360, lng: -113.7929, name: "Burley, ID", day: "Day 1 - Night", desc: "🥔 First camp! You survived 8 hours of driving through Wyoming." },
-            { lat: 46.9965, lng: -120.5478, name: "Ellensburg, WA", day: "Day 2 - Night", desc: "🌾 Halfway through! Crossed the Columbia River Gorge today." },
-            { lat: 48.9466, lng: -122.4527, name: "Lynden, WA", day: "Days 3-4", desc: "💒 Wedding time! Blueberry picking + Trevor's wedding." },
-            { lat: 49.2827, lng: -123.1207, name: "Vancouver, BC", day: "Days 5-7", desc: "🇨🇦 Canada! Baseball, Science World, Stanley Park, and more!" },
-            { lat: 50.6199, lng: -116.0491, name: "Radium Hot Springs, BC", day: "Days 8-9", desc: "♨️ Hot springs + Poutine Queen! HP fully restored!" },
-            { lat: 45.7833, lng: -108.5007, name: "Billings, MT", day: "Day 10", desc: "🦬 Big Sky Country! Rimrocks and cowboy territory." }
+            { lat: 39.8083, lng: -104.9344, name: "Commerce City, CO", day: "Day 1 - Start", desc: "🏠 Home base! The adventure begins here.", icon: "🏠", region: "The Starting Village" },
+            { lat: 42.5360, lng: -113.7929, name: "Burley, ID", day: "Day 1 - Night", desc: "🥔 First camp! You survived 8 hours through the plains.", icon: "🥔", region: "Potato Highlands" },
+            { lat: 46.9965, lng: -120.5478, name: "Ellensburg, WA", day: "Day 2 - Night", desc: "🌾 Crossed the Columbia River Gorge today.", icon: "🌾", region: "Wind Turbine Ridge" },
+            { lat: 48.9466, lng: -122.4527, name: "Lynden, WA", day: "Days 3-4", desc: "💒 Wedding time! Blueberry picking + Trevor's wedding.", icon: "💒", region: "The Northern Kingdoms" },
+            { lat: 49.2827, lng: -123.1207, name: "Vancouver, BC", day: "Days 5-7", desc: "🇨🇦 Canada! Baseball, Science World, Stanley Park!", icon: "🏙️", region: "The Great Northern City" },
+            { lat: 50.6199, lng: -116.0491, name: "Radium Hot Springs, BC", day: "Days 8-9", desc: "♨️ Hot springs + Poutine Queen! HP fully restored!", icon: "♨️", region: "Healing Springs Valley" },
+            { lat: 45.7833, lng: -108.5007, name: "Billings, MT", day: "Day 10", desc: "🦬 Big Sky Country! Rimrocks and cowboy territory.", icon: "🦬", region: "Bison Plains" }
         ];
 
-        const map = L.map('map-container').setView([46.5, -114], 5);
+        const map = L.map('map-container', {
+            zoomControl: false
+        }).setView([46.5, -114], 5);
         window.tripMap = map;
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 18
+        // Add zoom control to top right (like Zelda minimap)
+        L.control.zoom({ position: 'topright' }).addTo(map);
+
+        // Stamen Watercolor tiles for a hand-drawn/fantasy look
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', {
+            attribution: '&copy; <a href="https://stamen.com">Stamen Design</a>',
+            maxZoom: 16
         }).addTo(map);
 
-        // Custom gold marker icon
-        const goldIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<div style="background: #f0c040; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #b8860b; box-shadow: 0 0 8px rgba(240,192,64,0.6);"></div>',
-            iconSize: [14, 14],
-            iconAnchor: [7, 7],
-            popupAnchor: [0, -10]
-        });
+        // Add terrain labels on top so you can still read place names
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}.png', {
+            maxZoom: 16,
+            opacity: 0.7
+        }).addTo(map);
 
-        // Add markers
+        // Custom Zelda-style Sheikah Tower markers
+        function createZeldaIcon(emoji) {
+            return L.divIcon({
+                className: 'zelda-marker',
+                html: `<div class="zelda-marker-pin"><span class="zelda-marker-icon">${emoji}</span></div>`,
+                iconSize: [24, 32],
+                iconAnchor: [12, 32],
+                popupAnchor: [0, -34]
+            });
+        }
+
+        // Add markers with Zelda-style popups
         const coords = [];
         stops.forEach(stop => {
             coords.push([stop.lat, stop.lng]);
-            L.marker([stop.lat, stop.lng], { icon: goldIcon })
+            L.marker([stop.lat, stop.lng], { icon: createZeldaIcon(stop.icon) })
                 .addTo(map)
-                .bindPopup(`<strong style="color:#f0c040;">${stop.name}</strong><br><em>${stop.day}</em><br>${stop.desc}`);
+                .bindPopup(`
+                    <div style="text-align:center; min-width: 160px;">
+                        <div style="font-size: 1.5rem; margin-bottom: 4px;">${stop.icon}</div>
+                        <strong style="color:#f0c040; font-size: 0.95rem;">${stop.name}</strong>
+                        <div style="font-size: 0.7rem; color: #c084fc; font-style: italic; margin: 4px 0;">${stop.region}</div>
+                        <div style="font-size: 0.75rem; color: #a0a0b0; margin-top: 2px;">${stop.day}</div>
+                        <div style="font-size: 0.8rem; margin-top: 6px; color: #e8e8e8;">${stop.desc}</div>
+                    </div>
+                `);
         });
 
         // Add return line to Commerce City
         coords.push([39.8083, -104.9344]);
 
-        // Draw route polyline
+        // Draw route as a glowing golden path (like a quest trail)
+        // Shadow line for glow effect
+        L.polyline(coords, {
+            color: 'rgba(240, 192, 64, 0.3)',
+            weight: 8,
+            opacity: 1,
+            lineCap: 'round',
+            lineJoin: 'round'
+        }).addTo(map);
+
+        // Main path line
         L.polyline(coords, {
             color: '#f0c040',
             weight: 3,
-            opacity: 0.8,
-            dashArray: '10, 8'
+            opacity: 0.9,
+            dashArray: '12, 8',
+            lineCap: 'round',
+            lineJoin: 'round'
         }).addTo(map);
 
         // Fit map to show entire route
