@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Rory's Epic Road Trip Quest</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Cinzel:wght@700&family=Inter:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --gold: #f0c040;
+            --gold-dark: #b8860b;
+            --dark-bg: #1a1a2e;
+            --darker-bg: #0f0f1a;
+            --card-bg: #16213e;
+            --card-border: #2a4a7f;
+            --text: #e8e8e8;
+            --text-dim: #a0a0b0;
+            --green: #4ade80;
+            --red: #f87171;
+            --blue: #60a5fa;
+            --purple: #c084fc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker-bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .fantasy-font {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+            border-bottom: 3px solid var(--gold);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0c040' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .app-header h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.6rem;
+            text-shadow: 0 0 20px rgba(240, 192, 64, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-header .subtitle {
+            font-family: 'Press Start 2P', monospace;
+            color: var(--text-dim);
+            font-size: 0.55rem;
+            margin-top: 8px;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .triforce {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark-bg);
+            border-top: 2px solid var(--gold-dark);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 4px;
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom, 8px);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 0.65rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: var(--gold);
+            background: rgba(240, 192, 64, 0.1);
+        }
+
+        .tab-btn .tab-icon {
+            font-size: 1.4rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .quest-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quest-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+        }
+
+        .quest-card h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .quest-card .day-label {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.5rem;
+            color: var(--green);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .quest-card .details {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .quest-card .details strong {
+            color: var(--text);
+        }
+
+        .quest-card .drive-time {
+            display: inline-block;
+            background: rgba(240, 192, 64, 0.15);
+            border: 1px solid var(--gold-dark);
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            color: var(--gold);
+            margin-top: 8px;
+        }
+
+        /* Countdown */
+        .countdown-container {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .countdown-number {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 4rem;
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(240, 192, 64, 0.6);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .countdown-label {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-top: 10px;
+        }
+
+        .countdown-subtitle {
+            color: var(--text-dim);
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        .countdown-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px 8px;
+            text-align: center;
+        }
+
+        .stat-box .stat-num {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        .stat-box .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+        }
+
+        /* Fun Facts */
+        .fact-category {
+            margin-bottom: 20px;
+        }
+
+        .fact-category h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .fact-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .fact-item .fact-emoji {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+
+        /* Games */
+        .game-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .game-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px 10px;
+            text-align: center;
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .game-btn:hover, .game-btn.active {
+            border-color: var(--gold);
+            background: rgba(240, 192, 64, 0.1);
+            color: var(--gold);
+        }
+
+        .game-btn .game-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .game-area {
+            display: none;
+        }
+
+        .game-area.active {
+            display: block;
+        }
+
+        /* Trivia */
+        .trivia-question {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .trivia-question h4 {
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .trivia-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .trivia-opt {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .trivia-opt:hover {
+            border-color: var(--gold);
+            background: rgba(240, 192, 64, 0.1);
+        }
+
+        .trivia-opt.correct {
+            border-color: var(--green);
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--green);
+        }
+
+        .trivia-opt.wrong {
+            border-color: var(--red);
+            background: rgba(248, 113, 113, 0.2);
+            color: var(--red);
+        }
+
+        .trivia-score {
+            text-align: center;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        /* Would You Rather */
+        .wyr-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .wyr-card h4 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+        }
+
+        .wyr-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .wyr-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .wyr-option:hover {
+            border-color: var(--gold);
+            transform: scale(1.02);
+        }
+
+        .wyr-vs {
+            font-family: 'Press Start 2P', monospace;
+            color: var(--gold);
+            font-size: 0.7rem;
+            margin: 4px 0;
+        }
+
+        .wyr-nav {
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* Bingo */
+        .bingo-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin-top: 12px;
+        }
+
+        .bingo-cell {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+
+        .bingo-cell .bingo-emoji {
+            font-size: 1.3rem;
+        }
+
+        .bingo-cell.marked {
+            background: rgba(240, 192, 64, 0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .bingo-cell.free {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* License Plate Game */
+        .plate-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .plate-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 8px 6px;
+            text-align: center;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .plate-item.found {
+            background: rgba(240, 192, 64, 0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .plate-counter {
+            text-align: center;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .plate-section-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin: 16px 0 8px;
+            text-align: center;
+        }
+
+        /* Progress Tracker */
+        .progress-path {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .progress-path::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--card-border);
+            border-radius: 3px;
+        }
+
+        .progress-node {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .progress-node::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--card-border);
+            border: 3px solid var(--darker-bg);
+        }
+
+        .progress-node.completed::before {
+            background: var(--gold);
+            box-shadow: 0 0 10px rgba(240, 192, 64, 0.5);
+        }
+
+        .progress-node.completed {
+            border-color: var(--gold-dark);
+        }
+
+        .progress-node .node-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 0.95rem;
+        }
+
+        .progress-node .node-detail {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--darker-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(240, 192, 64, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-dark);
+            border-radius: 3px;
+        }
+
+        /* Fun hover effect for adventure items */
+        .quest-card:hover {
+            border-color: var(--gold-dark);
+            box-shadow: 0 0 20px rgba(240, 192, 64, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="app-header">
+        <h1 class="fantasy-font">⚔️ Rory's Epic Road Trip Quest ⚔️</h1>
+        <p class="subtitle">✦ THE GREAT NORTHWEST ADVENTURE ✦</p>
+    </header>
+
+    <!-- Tab Content: Countdown -->
+    <div id="tab-countdown" class="tab-content active">
+        <div class="countdown-container">
+            <div class="countdown-number" id="countdown-days">--</div>
+            <div class="countdown-label">Days Until Launch 🚀</div>
+            <div class="countdown-subtitle">The quest begins July 29, 2026</div>
+
+            <div class="countdown-stats">
+                <div class="stat-box">
+                    <div class="stat-num">5</div>
+                    <div class="stat-label">🗺️ States & Provinces</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">11</div>
+                    <div class="stat-label">🌅 Days of Adventure</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">~2800</div>
+                    <div class="stat-label">🛣️ Miles Total</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 16px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--card-border);">
+                <p class="pixel-font" style="font-size: 0.55rem; color: var(--gold); margin-bottom: 8px;">QUEST OBJECTIVES:</p>
+                <p style="color: var(--text-dim); font-size: 0.85rem; line-height: 1.8;">
+                    🏔️ Cross the Rocky Mountains<br>
+                    🌲 Walk through ancient forests<br>
+                    💒 Attend cousin Trevor's wedding<br>
+                    🫐 Pick fresh blueberries<br>
+                    ⚾ Watch a baseball game in Canada<br>
+                    🇨🇦 Explore Vancouver, BC<br>
+                    ♨️ Soak in hot springs<br>
+                    🍟 Eat poutine from a queen<br>
+                    🏞️ See Deception Falls
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Content: Journey -->
+    <div id="tab-journey" class="tab-content">
+        <h2 class="section-title">📜 The Quest Log 📜</h2>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 1 — JULY 29</div>
+            <h3>⚔️ The Departure</h3>
+            <div class="details">
+                <strong>Commerce City, CO → Burley, Idaho</strong><br>
+                Early morning departure! Cross the Rockies and head northwest through Wyoming into Idaho. Watch the landscape shift from plains to mountains to desert.<br>
+                🏨 <strong>Camp:</strong> Holiday Inn Express, Burley<br>
+                🎯 <strong>Side Quest:</strong> Count how many different state license plates you spot!
+            </div>
+            <span class="drive-time">🚗 ~8 hours driving</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 2 — JULY 30</div>
+            <h3>🏔️ Through the Snake River Plains</h3>
+            <div class="details">
+                <strong>Burley, ID → Ellensburg, WA</strong><br>
+                Cross into Oregon and up through Washington. You'll pass through the dramatic Columbia River Gorge - a real-life version of a canyon level!<br>
+                🏨 <strong>Camp:</strong> Holiday Inn Express, Ellensburg<br>
+                🎯 <strong>Side Quest:</strong> Spot the wind turbines on the ridges
+            </div>
+            <span class="drive-time">🚗 ~6.5 hours driving</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 3 — JULY 31</div>
+            <h3>🌊 Deception Falls & The Gathering</h3>
+            <div class="details">
+                <strong>Ellensburg, WA → Lynden, WA</strong><br>
+                Drive over the Cascade Mountains through Snoqualmie Pass. Stop at <strong>Deception Falls</strong> — a thundering waterfall right off the highway! Then head north to Lynden for the wedding rehearsal dinner.<br>
+                🏨 <strong>Camp:</strong> AirBnb in Lynden<br>
+                🎯 <strong>Main Quest:</strong> Trevor's rehearsal dinner at 5:50 PM<br>
+                ⚡ <strong>Boss Encounter:</strong> Deception Falls — don't get splashed!
+            </div>
+            <span class="drive-time">🚗 ~3.5 hours driving</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 4 — AUGUST 1</div>
+            <h3>🫐 Berry Harvest & The Wedding</h3>
+            <div class="details">
+                <strong>Lynden, WA (stay put)</strong><br>
+                Morning mission: Pick blueberries at <strong>Barbie's Berries</strong>! Then get fancy for cousin Trevor's wedding in Ferndale. Time to celebrate!<br>
+                🏨 <strong>Camp:</strong> AirBnb in Lynden<br>
+                🎯 <strong>Main Quest:</strong> Trevor's Wedding 💒<br>
+                🫐 <strong>Side Quest:</strong> How many blueberries can you eat while picking?
+            </div>
+            <span class="drive-time">🚗 No driving today!</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 5 — AUGUST 2</div>
+            <h3>⚾ Cross the Border & Play Ball!</h3>
+            <div class="details">
+                <strong>Lynden, WA → Vancouver, BC 🇨🇦</strong><br>
+                Cross the international border into <strong>Canada!</strong> Stop for a baseball game: <strong>Spokane Indians vs. Vancouver Canadians</strong>. New country, new adventure!<br>
+                🏨 <strong>Camp:</strong> AirBnb in Vancouver<br>
+                🎯 <strong>Main Quest:</strong> Watch the baseball game<br>
+                🌟 <strong>Achievement Unlocked:</strong> Enter a new country!
+            </div>
+            <span class="drive-time">🚗 ~1 hour + game time</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTERS 6-7 — AUGUST 3-4</div>
+            <h3>🏙️ Vancouver Free Roam</h3>
+            <div class="details">
+                <strong>Vancouver, BC (explore!)</strong><br>
+                Two free days to explore one of the coolest cities in North America! Possible adventures:<br>
+                🎮 <strong>Science World</strong> — giant geodesic dome of science<br>
+                🐋 <strong>Vancouver Aquarium</strong> — beluga whales and otters<br>
+                🌲 <strong>Stanley Park</strong> — seawall bike ride<br>
+                🦅 <strong>Capilano Suspension Bridge</strong> — 230 feet up in the trees<br>
+                🍦 Ice cream on Granville Island<br>
+                🎯 <strong>Side Quest:</strong> Try a food you've never had before!
+            </div>
+            <span class="drive-time">🚗 Explore on foot!</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 8 — AUGUST 5</div>
+            <h3>🛤️ The Trans-Canada Highway</h3>
+            <div class="details">
+                <strong>Vancouver, BC → Radium Hot Springs, BC</strong><br>
+                Epic drive through the heart of British Columbia on the Trans-Canada Highway. Mountains, rivers, and wilderness everywhere. You'll pass through the Canadian Rockies — like a real-life Breath of the Wild map!<br>
+                🏨 <strong>Camp:</strong> Radium Hot Springs (2 nights!)<br>
+                🎯 <strong>Side Quest:</strong> Spot wildlife — bears, elk, and mountain goats live here!
+            </div>
+            <span class="drive-time">🚗 ~8 hours driving</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 9 — AUGUST 6</div>
+            <h3>♨️ Hot Springs & Poutine Queen</h3>
+            <div class="details">
+                <strong>Radium Hot Springs, BC (rest day!)</strong><br>
+                Soak in the natural <strong>Radium Hot Springs</strong> — warm mineral water surrounded by mountains. Then feast at the legendary <strong>Poutine Queen</strong> (fries + gravy + cheese curds = 🤤).<br>
+                🏨 <strong>Camp:</strong> Same spot in Radium<br>
+                🎯 <strong>Main Quest:</strong> Hot springs + poutine<br>
+                ♨️ <strong>Power Up:</strong> Hot springs restore all HP!
+            </div>
+            <span class="drive-time">🚗 No driving today!</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 10 — AUGUST 7</div>
+            <h3>🦬 Into Montana</h3>
+            <div class="details">
+                <strong>Radium Hot Springs, BC → Billings, MT</strong><br>
+                Cross back into the USA and drive through Montana — "Big Sky Country." Wide open plains and huge skies. This is cowboy territory!<br>
+                🏨 <strong>Camp:</strong> Holiday Inn Express East, Billings<br>
+                🎯 <strong>Side Quest:</strong> Watch for pronghorn antelope — they're the fastest land animals in North America!
+            </div>
+            <span class="drive-time">🚗 ~7 hours driving</span>
+        </div>
+
+        <div class="quest-card">
+            <div class="day-label">CHAPTER 11 — AUGUST 8</div>
+            <h3>🏠 Return to Base</h3>
+            <div class="details">
+                <strong>Billings, MT → Commerce City, CO</strong><br>
+                The final leg! Drive south through Wyoming and back into Colorado. You've completed the quest and can see the Front Range mountains welcoming you home!<br>
+                🏠 <strong>Camp:</strong> HOME SWEET HOME<br>
+                🎯 <strong>Achievement:</strong> Quest Complete! 🏆
+            </div>
+            <span class="drive-time">🚗 ~9 hours driving</span>
+        </div>
+    </div>
+
+    <!-- Tab Content: Fun Facts -->
+    <div id="tab-facts" class="tab-content">
+        <h2 class="section-title">📚 Adventurer's Codex 📚</h2>
+
+        <div class="fact-category">
+            <h3>🥔 Idaho — The Gem State</h3>
+            <div class="fact-item"><span class="fact-emoji">🥔</span>Idaho grows about 13 BILLION pounds of potatoes every year — enough to fill 500,000 swimming pools!</div>
+            <div class="fact-item"><span class="fact-emoji">🌙</span>Craters of the Moon in Idaho looks so much like the moon's surface that NASA astronauts actually trained there before going to space!</div>
+            <div class="fact-item"><span class="fact-emoji">💎</span>Idaho is the only place in the US where you can find star garnets — a super rare gem with a star pattern inside.</div>
+            <div class="fact-item"><span class="fact-emoji">🦅</span>The Peregrine Falcon, which can dive at 240 mph (fastest animal on Earth!), nests in Idaho's Snake River Canyon.</div>
+            <div class="fact-item"><span class="fact-emoji">🏔️</span>Hell's Canyon in Idaho is deeper than the Grand Canyon — 7,993 feet deep!</div>
+        </div>
+
+        <div class="fact-category">
+            <h3>🌲 Washington — The Evergreen State</h3>
+            <div class="fact-item"><span class="fact-emoji">🌋</span>Mount Rainier is an active volcano and has more glaciers than any other mountain in the lower 48 states. It could erupt again!</div>
+            <div class="fact-item"><span class="fact-emoji">🐙</span>The Giant Pacific Octopus lives in Puget Sound — it can have an arm span of 20 feet and solve puzzles!</div>
+            <div class="fact-item"><span class="fact-emoji">🍎</span>Washington grows more apples than any other state — about 10-12 BILLION apples every year.</div>
+            <div class="fact-item"><span class="fact-emoji">🌊</span>Deception Falls (where you're stopping!) drops 60 feet through a narrow rock gorge carved by 10,000 years of water.</div>
+            <div class="fact-item"><span class="fact-emoji">🎮</span>Both Nintendo of America and Valve (who make Steam) have their headquarters in Washington!</div>
+        </div>
+
+        <div class="fact-category">
+            <h3>🇨🇦 British Columbia — The Pacific Province</h3>
+            <div class="fact-item"><span class="fact-emoji">🐻</span>BC is home to the Spirit Bear (Kermode Bear) — a black bear born completely white! Only about 400 exist in the wild.</div>
+            <div class="fact-item"><span class="fact-emoji">🌲</span>Cathedral Grove in BC has trees over 800 years old — they were alive during the time of the real Knights Templar!</div>
+            <div class="fact-item"><span class="fact-emoji">♨️</span>Radium Hot Springs gets its name from the trace amounts of radon gas in the water (totally safe!) — the water is naturally heated to 40°C (104°F) by the Earth itself.</div>
+            <div class="fact-item"><span class="fact-emoji">🎬</span>Vancouver is called "Hollywood North" because SO many movies and TV shows are filmed there. Lots of Marvel movies were filmed in Vancouver!</div>
+            <div class="fact-item"><span class="fact-emoji">🦑</span>BC's coast has the Ogopogo — Canada's version of the Loch Ness Monster, living in Okanagan Lake. Sightings go back hundreds of years!</div>
+        </div>
+
+        <div class="fact-category">
+            <h3>🦬 Montana — Big Sky Country</h3>
+            <div class="fact-item"><span class="fact-emoji">🦕</span>More T-Rex fossils have been found in Montana than any other state! The famous "Sue" was found nearby in South Dakota.</div>
+            <div class="fact-item"><span class="fact-emoji">🐂</span>Montana has 3x more cows than people. The human population is about 1.1 million, but there are over 2.5 million cattle!</div>
+            <div class="fact-item"><span class="fact-emoji">⚡</span>Montana gets some of the most intense lightning storms in the country because of its flat terrain meeting the Rocky Mountains.</div>
+            <div class="fact-item"><span class="fact-emoji">🏔️</span>Glacier National Park in Montana has over 700 miles of trails and 130 named lakes. Its glaciers have been there for 7,000 years (but they're shrinking).</div>
+            <div class="fact-item"><span class="fact-emoji">🌡️</span>Montana holds the record for the biggest temperature change in one day: 103°F drop in 24 hours (from 44°F to -56°F) in 1916!</div>
+        </div>
+
+        <div class="fact-category">
+            <h3>🏔️ Wyoming — The Cowboy State (passing through!)</h3>
+            <div class="fact-item"><span class="fact-emoji">🦬</span>Yellowstone has a supervolcano underneath it. If it erupted, it would cover most of the US in ash — but don't worry, it's not expected to blow for thousands of years!</div>
+            <div class="fact-item"><span class="fact-emoji">🤠</span>Wyoming has the smallest population of any US state — only about 580,000 people. Your school probably has more kids than some Wyoming towns!</div>
+            <div class="fact-item"><span class="fact-emoji">🏜️</span>Devils Tower in Wyoming was the first National Monument in the US and looks like a giant tree stump made of rock. It was featured in "Close Encounters of the Third Kind."</div>
+        </div>
+    </div>
+
+    <!-- Tab Content: Games -->
+    <div id="tab-games" class="tab-content">
+        <h2 class="section-title">🎮 Mini Games 🎮</h2>
+
+        <div class="game-selector">
+            <div class="game-btn active" onclick="showGame('trivia')">
+                <span class="game-icon">🧠</span>
+                Trivia Quest
+            </div>
+            <div class="game-btn" onclick="showGame('wyr')">
+                <span class="game-icon">🤔</span>
+                Would You Rather
+            </div>
+            <div class="game-btn" onclick="showGame('bingo')">
+                <span class="game-icon">🎯</span>
+                Road Bingo
+            </div>
+            <div class="game-btn" onclick="showGame('plates')">
+                <span class="game-icon">🚗</span>
+                License Plates
+            </div>
+        </div>
+
+        <!-- TRIVIA GAME -->
+        <div id="game-trivia" class="game-area active">
+            <div class="trivia-score">Score: <span id="trivia-score">0</span> / <span id="trivia-total">0</span> ⭐</div>
+            <div id="trivia-container"></div>
+            <div style="text-align:center; margin-top: 16px;">
+                <button class="btn" onclick="nextTrivia()">Next Question ➡️</button>
+                <button class="btn-outline" style="margin-left: 8px;" onclick="resetTrivia()">Reset 🔄</button>
+            </div>
+        </div>
+
+        <!-- WOULD YOU RATHER -->
+        <div id="game-wyr" class="game-area">
+            <div class="wyr-card">
+                <h4 id="wyr-question">Loading...</h4>
+                <div class="wyr-options">
+                    <div class="wyr-option" id="wyr-a" onclick="nextWYR()"></div>
+                    <div class="wyr-vs">— OR —</div>
+                    <div class="wyr-option" id="wyr-b" onclick="nextWYR()"></div>
+                </div>
+                <div class="wyr-nav">
+                    <button class="btn-outline" onclick="nextWYR()">Next ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- BINGO -->
+        <div id="game-bingo" class="game-area">
+            <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Tap items when you spot them! Get 5 in a row to win! 🎉</p>
+            <div class="bingo-grid" id="bingo-grid"></div>
+            <div style="text-align:center; margin-top: 12px;">
+                <button class="btn-outline" onclick="resetBingo()">New Card 🔄</button>
+            </div>
+        </div>
+
+        <!-- LICENSE PLATES -->
+        <div id="game-plates" class="game-area">
+            <div class="plate-counter">Found: <span id="plate-count">0</span> / 63 🏆</div>
+            <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Tap a state/province when you spot their plate!</p>
+            <div class="plate-section-title">🇺🇸 United States</div>
+            <div class="plate-grid" id="us-plates"></div>
+            <div class="plate-section-title">🇨🇦 Canadian Provinces</div>
+            <div class="plate-grid" id="ca-plates"></div>
+        </div>
+    </div>
+
+    <!-- Tab Content: Progress -->
+    <div id="tab-progress" class="tab-content">
+        <h2 class="section-title">🗺️ Quest Progress 🗺️</h2>
+        <p style="text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 20px;">Tap a leg to mark it complete! ✅</p>
+        
+        <div class="progress-path" id="progress-path">
+            <!-- Filled by JS -->
+        </div>
+
+        <div style="text-align:center; margin-top: 16px;">
+            <button class="btn-outline" onclick="resetProgress()">Reset Progress 🔄</button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('countdown')">
+            <span class="tab-icon">⏳</span>
+            Countdown
+        </button>
+        <button class="tab-btn" onclick="switchTab('journey')">
+            <span class="tab-icon">📜</span>
+            Journey
+        </button>
+        <button class="tab-btn" onclick="switchTab('facts')">
+            <span class="tab-icon">📚</span>
+            Facts
+        </button>
+        <button class="tab-btn" onclick="switchTab('games')">
+            <span class="tab-icon">🎮</span>
+            Games
+        </button>
+        <button class="tab-btn" onclick="switchTab('progress')">
+            <span class="tab-icon">🗺️</span>
+            Progress
+        </button>
+    </nav>
+
+    <script>
+    // ============ TAB NAVIGATION ============
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // ============ COUNTDOWN ============
+    function updateCountdown() {
+        const tripDate = new Date('2026-07-29T06:00:00');
+        const now = new Date();
+        const diff = tripDate - now;
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        const el = document.getElementById('countdown-days');
+        if (days > 0) {
+            el.textContent = days;
+        } else if (days === 0) {
+            el.textContent = "TODAY!";
+            el.style.fontSize = '2.5rem';
+        } else {
+            el.textContent = "🎉";
+            document.querySelector('.countdown-label').textContent = "The Quest Has Begun!";
+        }
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+
+    // ============ TRIVIA GAME ============
+    const triviaQuestions = [
+        {q: "In Zelda: Breath of the Wild, what is the name of Link's horse companion from 100 years ago?", opts: ["Epona", "Storm", "Shadowfax", "Roach"], a: 0},
+        {q: "What is the rarest ore you can mine in Minecraft?", opts: ["Diamond", "Emerald", "Ancient Debris (Netherite)", "Lapis Lazuli"], a: 2},
+        {q: "In Among Us, what color is NOT a standard crewmate color?", opts: ["Cyan", "Purple", "Gold", "Lime"], a: 2},
+        {q: "How many states does the US have?", opts: ["48", "50", "51", "52"], a: 1},
+        {q: "What biome in Minecraft has mushroom-shaped trees?", opts: ["Dark Forest", "Mushroom Fields", "Roofed Forest", "Warped Forest"], a: 3},
+        {q: "In Zelda, what instrument does Link play in Ocarina of Time?", opts: ["Flute", "Ocarina", "Harp", "Guitar"], a: 1},
+        {q: "What country is north of the United States?", opts: ["Mexico", "Canada", "Greenland", "Russia"], a: 1},
+        {q: "How many players are on a soccer field per team (including goalkeeper)?", opts: ["9", "10", "11", "12"], a: 2},
+        {q: "In Project Hail Mary, what is the name of Rocky's species?", opts: ["Eridians", "Martians", "Hail People", "Tau Cetians"], a: 0},
+        {q: "What is the capital of Idaho?", opts: ["Boise", "Idaho Falls", "Nampa", "Burley"], a: 0},
+        {q: "In Minecraft, what mob drops Ender Pearls?", opts: ["Creeper", "Enderman", "Blaze", "Skeleton"], a: 1},
+        {q: "Which planet in our solar system has the most moons?", opts: ["Jupiter", "Saturn", "Uranus", "Neptune"], a: 1},
+        {q: "In Zelda: Tears of the Kingdom, what is the name of the sky islands?", opts: ["Cloud Tops", "The Great Sky Island", "Skyloft", "Heaven's Gate"], a: 1},
+        {q: "What is the hottest planet in our solar system?", opts: ["Mercury", "Venus", "Mars", "Jupiter"], a: 1},
+        {q: "In Among Us, what room do you go to call an Emergency Meeting?", opts: ["Electrical", "Cafeteria", "Admin", "Medbay"], a: 1},
+        {q: "What Canadian province is Vancouver in?", opts: ["Alberta", "Ontario", "British Columbia", "Quebec"], a: 2},
+        {q: "How many hearts does Link start with in most Zelda games?", opts: ["1", "3", "5", "10"], a: 1},
+        {q: "In soccer, what is it called when a player scores 3 goals in one game?", opts: ["Triple Play", "Hat Trick", "Three-peat", "Golden Boot"], a: 1},
+        {q: "What is the strongest block in Minecraft (can't be broken by explosions)?", opts: ["Obsidian", "Bedrock", "Crying Obsidian", "Netherite Block"], a: 1},
+        {q: "In Project Hail Mary, what does the ship use for fuel?", opts: ["Rocket fuel", "Astrophage", "Solar energy", "Nuclear power"], a: 1},
+        {q: "What is the tallest mountain in Washington State?", opts: ["Mount St. Helens", "Mount Rainier", "Mount Baker", "Mount Adams"], a: 1},
+        {q: "In Minecraft, what do you feed wolves to tame them?", opts: ["Steak", "Chicken", "Bones", "Fish"], a: 2},
+        {q: "What is the speed of light (approximately)?", opts: ["186,000 miles/sec", "86,000 miles/sec", "1 million miles/sec", "500,000 miles/sec"], a: 0},
+        {q: "In Lord of the Rings, what is the name of Gandalf's sword?", opts: ["Sting", "Glamdring", "Anduril", "Orcrist"], a: 1},
+        {q: "What is poutine made of?", opts: ["Pasta and cheese", "Fries, gravy, and cheese curds", "Rice and beans", "Bread and butter"], a: 1}
+    ];
+
+    let triviaIndex = 0;
+    let triviaScore = 0;
+    let triviaAnswered = false;
+    let shuffledTrivia = [...triviaQuestions].sort(() => Math.random() - 0.5);
+
+    function renderTrivia() {
+        if (triviaIndex >= shuffledTrivia.length) {
+            document.getElementById('trivia-container').innerHTML = `
+                <div class="trivia-question">
+                    <h4>🏆 Quest Complete!</h4>
+                    <p style="color: var(--text-dim);">You scored ${triviaScore} out of ${shuffledTrivia.length}!</p>
+                    <p style="color: var(--gold); margin-top: 10px; font-size: 1.5rem;">${triviaScore >= 20 ? '👑 LEGENDARY!' : triviaScore >= 15 ? '⚔️ HERO!' : triviaScore >= 10 ? '🛡️ WARRIOR!' : '🗡️ ADVENTURER!'}</p>
+                </div>`;
+            return;
+        }
+        const q = shuffledTrivia[triviaIndex];
+        triviaAnswered = false;
+        let html = `<div class="trivia-question"><h4>❓ ${q.q}</h4><div class="trivia-options">`;
+        q.opts.forEach((opt, i) => {
+            html += `<div class="trivia-opt" onclick="answerTrivia(${i}, ${q.a})">${opt}</div>`;
+        });
+        html += `</div></div>`;
+        document.getElementById('trivia-container').innerHTML = html;
+        document.getElementById('trivia-score').textContent = triviaScore;
+        document.getElementById('trivia-total').textContent = triviaIndex;
+    }
+
+    function answerTrivia(selected, correct) {
+        if (triviaAnswered) return;
+        triviaAnswered = true;
+        const opts = document.querySelectorAll('.trivia-opt');
+        if (selected === correct) {
+            triviaScore++;
+            opts[selected].classList.add('correct');
+        } else {
+            opts[selected].classList.add('wrong');
+            opts[correct].classList.add('correct');
+        }
+        document.getElementById('trivia-score').textContent = triviaScore;
+        document.getElementById('trivia-total').textContent = triviaIndex + 1;
+    }
+
+    function nextTrivia() {
+        if (!triviaAnswered && triviaIndex < shuffledTrivia.length) return;
+        triviaIndex++;
+        renderTrivia();
+    }
+
+    function resetTrivia() {
+        triviaIndex = 0;
+        triviaScore = 0;
+        shuffledTrivia = [...triviaQuestions].sort(() => Math.random() - 0.5);
+        renderTrivia();
+    }
+
+    renderTrivia();
+
+    // ============ WOULD YOU RATHER ============
+    const wyrQuestions = [
+        ["Have a portal gun from Minecraft", "Have a paraglider from Zelda"],
+        ["Be an Impostor in real life Among Us", "Be a Crewmate with a detective kit"],
+        ["Live in the Shire (Lord of the Rings)", "Live in Hateno Village (Zelda)"],
+        ["Have super speed like a Peregrine Falcon (240mph)", "Have super strength like a Goron"],
+        ["Only eat poutine for a month", "Only eat potatoes for a month"],
+        ["Explore a real-life Minecraft cave", "Explore a real-life Zelda dungeon"],
+        ["Meet Ryland Grace from Project Hail Mary", "Meet Gandalf from Lord of the Rings"],
+        ["Score the winning goal in the World Cup", "Hit a grand slam in the World Series"],
+        ["Ride a bear across Canada", "Ride a moose across Montana"],
+        ["Have unlimited diamonds in Minecraft", "Have the Master Sword in real life"],
+        ["Be able to breathe underwater", "Be able to fly but only 10 feet high"],
+        ["Fight one Hinox (Zelda)", "Fight 100 Silverfish (Minecraft)"],
+        ["Travel to space with Rocky (Project Hail Mary)", "Travel to Middle Earth"],
+        ["Have a pet wolf (tamed like Minecraft)", "Have a pet falcon"],
+        ["Live in a treehouse for a year", "Live in a submarine for a year"],
+        ["Always smell like blueberries", "Always have glitter in your hair"],
+        ["Be invisible but only when no one is looking", "Be able to fly but only when singing"],
+        ["Swim in a pool of cheese curds", "Slide down a mountain of french fries"],
+        ["Play soccer on the moon (low gravity!)", "Play Minecraft in VR forever"],
+        ["Have Ganondorf as your soccer coach", "Have a Creeper as your alarm clock"],
+        ["Cross the border into a new country every day", "Stay in one country forever but it's massive"],
+        ["Have night vision like an owl", "Have echo-location like a bat"],
+        ["Find $100 on the road", "Find a real Triforce piece"],
+        ["Eat the spiciest hot spring water soup", "Drink liquid poutine gravy"]
+    ];
+
+    let wyrIndex = 0;
+
+    function renderWYR() {
+        const q = wyrQuestions[wyrIndex % wyrQuestions.length];
+        document.getElementById('wyr-question').textContent = "Would you rather...";
+        document.getElementById('wyr-a').textContent = "🅰️ " + q[0];
+        document.getElementById('wyr-b').textContent = "🅱️ " + q[1];
+    }
+
+    function nextWYR() {
+        wyrIndex++;
+        renderWYR();
+    }
+
+    renderWYR();
+
+    // ============ BINGO ============
+    const bingoItems = [
+        {emoji: "🐄", text: "Cow"},
+        {emoji: "🔴", text: "Red Barn"},
+        {emoji: "🚛", text: "Semi Truck"},
+        {emoji: "🌊", text: "River"},
+        {emoji: "⛽", text: "Gas Station"},
+        {emoji: "🏔️", text: "Snow-capped Mtn"},
+        {emoji: "🌉", text: "Bridge"},
+        {emoji: "🚓", text: "Police Car"},
+        {emoji: "🐎", text: "Horse"},
+        {emoji: "🌾", text: "Farm Field"},
+        {emoji: "📡", text: "Cell Tower"},
+        {emoji: "🚂", text: "Train"},
+        {emoji: "🏕️", text: "Campsite"},
+        {emoji: "🎰", text: "Billboard"},
+        {emoji: "🦅", text: "Bird of Prey"},
+        {emoji: "🚐", text: "RV/Camper"},
+        {emoji: "💨", text: "Wind Turbine"},
+        {emoji: "🏗️", text: "Construction"},
+        {emoji: "🐕", text: "Dog in Car"},
+        {emoji: "🚗", text: "TX Plate"},
+        {emoji: "🌈", text: "Rainbow"},
+        {emoji: "🏖️", text: "Lake"},
+        {emoji: "🛑", text: "Rest Stop"},
+        {emoji: "🌲", text: "Pine Forest"},
+        {emoji: "🦌", text: "Deer Sign"},
+        {emoji: "🚜", text: "Tractor"},
+        {emoji: "🏚️", text: "Abandoned Bldg"},
+        {emoji: "🎪", text: "Water Tower"},
+        {emoji: "🐑", text: "Sheep"},
+        {emoji: "🚑", text: "Ambulance"},
+        {emoji: "🌅", text: "Sunset"},
+        {emoji: "🛤️", text: "Railroad Xing"},
+        {emoji: "🚙", text: "Yellow Car"},
+        {emoji: "🏠", text: "Tiny House"},
+        {emoji: "🦆", text: "Ducks"}
+    ];
+
+    let bingoState = [];
+
+    function initBingo() {
+        const shuffled = [...bingoItems].sort(() => Math.random() - 0.5).slice(0, 24);
+        shuffled.splice(12, 0, {emoji: "⭐", text: "FREE", free: true});
+        bingoState = shuffled.map((item, i) => ({...item, marked: item.free || false}));
+        renderBingo();
+    }
+
+    function renderBingo() {
+        const grid = document.getElementById('bingo-grid');
+        grid.innerHTML = bingoState.map((item, i) => `
+            <div class="bingo-cell ${item.marked ? (item.free ? 'free' : 'marked') : ''}" onclick="toggleBingo(${i})">
+                <span class="bingo-emoji">${item.emoji}</span>
+                <span>${item.text}</span>
+            </div>
+        `).join('');
+    }
+
+    function toggleBingo(i) {
+        if (bingoState[i].free) return;
+        bingoState[i].marked = !bingoState[i].marked;
+        renderBingo();
+        checkBingo();
+    }
+
+    function checkBingo() {
+        // Check rows, cols, diagonals
+        for (let r = 0; r < 5; r++) {
+            if ([0,1,2,3,4].every(c => bingoState[r*5+c].marked)) { alert("🎉 BINGO! Row " + (r+1) + "!"); return; }
+        }
+        for (let c = 0; c < 5; c++) {
+            if ([0,1,2,3,4].every(r => bingoState[r*5+c].marked)) { alert("🎉 BINGO! Column " + (c+1) + "!"); return; }
+        }
+        if ([0,1,2,3,4].every(i => bingoState[i*6].marked)) { alert("🎉 BINGO! Diagonal!"); return; }
+        if ([0,1,2,3,4].every(i => bingoState[(i+1)*4].marked)) { alert("🎉 BINGO! Diagonal!"); return; }
+    }
+
+    function resetBingo() { initBingo(); }
+    initBingo();
+
+    // ============ LICENSE PLATE GAME ============
+    const usStates = ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+    const caProvinces = ["AB","BC","MB","NB","NL","NS","NT","NU","ON","PE","QC","SK","YT"];
+    const stateNames = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"N. Carolina",ND:"N. Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"S. Carolina",SD:"S. Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"W. Virginia",WI:"Wisconsin",WY:"Wyoming",AB:"Alberta",BC:"British Columbia",MB:"Manitoba",NB:"New Brunswick",NL:"Newfoundland",NS:"Nova Scotia",NT:"NW Territories",NU:"Nunavut",ON:"Ontario",PE:"PEI",QC:"Quebec",SK:"Saskatchewan",YT:"Yukon"};
+
+    let foundPlates = JSON.parse(localStorage.getItem('foundPlates') || '[]');
+
+    function renderPlates() {
+        const usGrid = document.getElementById('us-plates');
+        const caGrid = document.getElementById('ca-plates');
+        usGrid.innerHTML = usStates.map(s => `<div class="plate-item ${foundPlates.includes(s)?'found':''}" onclick="togglePlate('${s}')">${s}<br><small>${stateNames[s]}</small></div>`).join('');
+        caGrid.innerHTML = caProvinces.map(s => `<div class="plate-item ${foundPlates.includes(s)?'found':''}" onclick="togglePlate('${s}')">${s}<br><small>${stateNames[s]}</small></div>`).join('');
+        document.getElementById('plate-count').textContent = foundPlates.length;
+    }
+
+    function togglePlate(code) {
+        if (foundPlates.includes(code)) {
+            foundPlates = foundPlates.filter(p => p !== code);
+        } else {
+            foundPlates.push(code);
+        }
+        localStorage.setItem('foundPlates', JSON.stringify(foundPlates));
+        renderPlates();
+    }
+
+    renderPlates();
+
+    // ============ GAME SWITCHER ============
+    function showGame(gameId) {
+        document.querySelectorAll('.game-area').forEach(g => g.classList.remove('active'));
+        document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('game-' + gameId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // ============ PROGRESS TRACKER ============
+    const progressLegs = [
+        {title: "Commerce City → Burley, ID", detail: "July 29 — Through Wyoming into Idaho", icon: "🚗"},
+        {title: "Burley, ID → Ellensburg, WA", detail: "July 30 — Across the Northwest", icon: "🏔️"},
+        {title: "Ellensburg → Lynden, WA", detail: "July 31 — Deception Falls + Rehearsal", icon: "🌊"},
+        {title: "Lynden, WA (Wedding Day)", detail: "Aug 1 — Blueberries + Trevor's Wedding", icon: "💒"},
+        {title: "Lynden → Vancouver, BC", detail: "Aug 2 — Baseball game!", icon: "⚾"},
+        {title: "Vancouver Free Days", detail: "Aug 3-4 — Explore the city", icon: "🏙️"},
+        {title: "Vancouver → Radium Hot Springs", detail: "Aug 5 — Trans-Canada Highway", icon: "🛤️"},
+        {title: "Radium Hot Springs Rest Day", detail: "Aug 6 — Hot springs + Poutine Queen", icon: "♨️"},
+        {title: "Radium → Billings, MT", detail: "Aug 7 — Into Big Sky Country", icon: "🦬"},
+        {title: "Billings → Commerce City", detail: "Aug 8 — The Final Leg Home!", icon: "🏠"}
+    ];
+
+    let completedLegs = JSON.parse(localStorage.getItem('completedLegs') || '[]');
+
+    function renderProgress() {
+        const container = document.getElementById('progress-path');
+        container.innerHTML = progressLegs.map((leg, i) => `
+            <div class="progress-node ${completedLegs.includes(i) ? 'completed' : ''}" onclick="toggleLeg(${i})">
+                <span class="node-title">${leg.icon} ${leg.title}</span>
+                <span class="node-detail">${leg.detail}</span>
+            </div>
+        `).join('');
+    }
+
+    function toggleLeg(i) {
+        if (completedLegs.includes(i)) {
+            completedLegs = completedLegs.filter(l => l !== i);
+        } else {
+            completedLegs.push(i);
+        }
+        localStorage.setItem('completedLegs', JSON.stringify(completedLegs));
+        renderProgress();
+    }
+
+    function resetProgress() {
+        completedLegs = [];
+        localStorage.setItem('completedLegs', '[]');
+        renderProgress();
+    }
+
+    renderProgress();
+    </script>
+</body>
+</html>
