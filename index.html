@@ -1813,31 +1813,164 @@
 
     // ============ TRIVIA GAME ============
     const triviaQuestions = [
+        // === ZELDA ===
         {q: "In Zelda: Breath of the Wild, what is the name of Link's horse companion from 100 years ago?", opts: ["Epona", "Storm", "Shadowfax", "Roach"], a: 0},
-        {q: "What is the rarest ore you can mine in Minecraft?", opts: ["Diamond", "Emerald", "Ancient Debris (Netherite)", "Lapis Lazuli"], a: 2},
-        {q: "In Among Us, what color is NOT a standard crewmate color?", opts: ["Cyan", "Purple", "Gold", "Lime"], a: 2},
-        {q: "How many states does the US have?", opts: ["48", "50", "51", "52"], a: 1},
-        {q: "What biome in Minecraft has mushroom-shaped trees?", opts: ["Dark Forest", "Mushroom Fields", "Roofed Forest", "Warped Forest"], a: 3},
         {q: "In Zelda, what instrument does Link play in Ocarina of Time?", opts: ["Flute", "Ocarina", "Harp", "Guitar"], a: 1},
-        {q: "What country is north of the United States?", opts: ["Mexico", "Canada", "Greenland", "Russia"], a: 1},
-        {q: "How many players are on a soccer field per team (including goalkeeper)?", opts: ["9", "10", "11", "12"], a: 2},
-        {q: "In Project Hail Mary, what is the name of Rocky's species?", opts: ["Eridians", "Martians", "Hail People", "Tau Cetians"], a: 0},
-        {q: "What is the capital of Idaho?", opts: ["Boise", "Idaho Falls", "Nampa", "Burley"], a: 0},
-        {q: "In Minecraft, what mob drops Ender Pearls?", opts: ["Creeper", "Enderman", "Blaze", "Skeleton"], a: 1},
-        {q: "Which planet in our solar system has the most moons?", opts: ["Jupiter", "Saturn", "Uranus", "Neptune"], a: 1},
         {q: "In Zelda: Tears of the Kingdom, what is the name of the sky islands?", opts: ["Cloud Tops", "The Great Sky Island", "Skyloft", "Heaven's Gate"], a: 1},
-        {q: "What is the hottest planet in our solar system?", opts: ["Mercury", "Venus", "Mars", "Jupiter"], a: 1},
-        {q: "In Among Us, what room do you go to call an Emergency Meeting?", opts: ["Electrical", "Cafeteria", "Admin", "Medbay"], a: 1},
-        {q: "What Canadian province is Vancouver in?", opts: ["Alberta", "Ontario", "British Columbia", "Quebec"], a: 2},
         {q: "How many hearts does Link start with in most Zelda games?", opts: ["1", "3", "5", "10"], a: 1},
-        {q: "In soccer, what is it called when a player scores 3 goals in one game?", opts: ["Triple Play", "Hat Trick", "Three-peat", "Golden Boot"], a: 1},
+        {q: "What is the name of the villain in most Zelda games?", opts: ["Bowser", "Ganondorf", "Sephiroth", "Dark Link"], a: 1},
+        {q: "In Breath of the Wild, what are the four Divine Beasts named after?", opts: ["Greek gods", "Champions of Hyrule", "Elements", "Constellations"], a: 1},
+        {q: "What race lives in Zora's Domain in Zelda?", opts: ["Gorons", "Rito", "Zora", "Gerudo"], a: 2},
+        {q: "In Tears of the Kingdom, what new ability lets Link build vehicles?", opts: ["Ultrahand", "Stasis", "Magnesis", "Ascend"], a: 0},
+        {q: "What is the name of the fairy who follows Link in Ocarina of Time?", opts: ["Tatl", "Navi", "Fi", "Midna"], a: 1},
+        {q: "In BOTW, what do you need to upgrade armor?", opts: ["Rupees only", "Materials at a Great Fairy Fountain", "Star Fragments", "Ancient Cores"], a: 1},
+        {q: "What is the Master Sword also called?", opts: ["The Blade of Evil's Bane", "The Holy Sword", "Excalibur", "The Sword of Time"], a: 0},
+        {q: "In Zelda, what do Koroks give you when you find them?", opts: ["Rupees", "Korok Seeds", "Heart Containers", "Arrows"], a: 1},
+
+        // === MINECRAFT ===
+        {q: "What is the rarest ore you can mine in Minecraft?", opts: ["Diamond", "Emerald", "Ancient Debris (Netherite)", "Lapis Lazuli"], a: 2},
+        {q: "What biome in Minecraft has mushroom-shaped trees?", opts: ["Dark Forest", "Mushroom Fields", "Roofed Forest", "Warped Forest"], a: 3},
+        {q: "In Minecraft, what mob drops Ender Pearls?", opts: ["Creeper", "Enderman", "Blaze", "Skeleton"], a: 1},
         {q: "What is the strongest block in Minecraft (can't be broken by explosions)?", opts: ["Obsidian", "Bedrock", "Crying Obsidian", "Netherite Block"], a: 1},
-        {q: "In Project Hail Mary, what does the ship use for fuel?", opts: ["Rocket fuel", "Astrophage", "Solar energy", "Nuclear power"], a: 1},
-        {q: "What is the tallest mountain in Washington State?", opts: ["Mount St. Helens", "Mount Rainier", "Mount Baker", "Mount Adams"], a: 1},
         {q: "In Minecraft, what do you feed wolves to tame them?", opts: ["Steak", "Chicken", "Bones", "Fish"], a: 2},
-        {q: "What is the speed of light (approximately)?", opts: ["186,000 miles/sec", "86,000 miles/sec", "1 million miles/sec", "500,000 miles/sec"], a: 0},
+        {q: "How many Ender Eyes do you need to activate an End Portal?", opts: ["8", "10", "12", "16"], a: 2},
+        {q: "What happens if a Creeper is struck by lightning?", opts: ["It dies", "It becomes a Charged Creeper", "It turns into a Wither", "Nothing"], a: 1},
+        {q: "What dimension do you enter through an Obsidian portal?", opts: ["The End", "The Nether", "The Aether", "The Deep Dark"], a: 1},
+        {q: "In Minecraft, how do you make a Golem?", opts: ["Iron blocks and a pumpkin", "Gold blocks and a torch", "Diamond blocks and a skull", "Stone blocks and redstone"], a: 0},
+        {q: "What mob in Minecraft is afraid of cats?", opts: ["Zombies", "Endermen", "Creepers", "Skeletons"], a: 2},
+        {q: "What food gives the most hunger in Minecraft?", opts: ["Steak", "Golden Apple", "Golden Carrot", "Enchanted Golden Apple"], a: 2},
+        {q: "How do you get to The End in Minecraft?", opts: ["Build a special portal", "Find a Stronghold", "Beat the Wither", "Dig to bedrock"], a: 1},
+        {q: "What does a Beacon need as fuel?", opts: ["Diamonds or Emeralds", "Iron, Gold, Diamonds, Emeralds, or Netherite Ingots", "Only Nether Stars", "Any gem"], a: 1},
+        {q: "What animal can you ride in the Nether?", opts: ["Pig", "Strider", "Hoglin", "Ghast"], a: 1},
+
+        // === AMONG US ===
+        {q: "In Among Us, what color is NOT a standard crewmate color?", opts: ["Cyan", "Purple", "Gold", "Lime"], a: 2},
+        {q: "In Among Us, what room do you go to call an Emergency Meeting?", opts: ["Electrical", "Cafeteria", "Admin", "Medbay"], a: 1},
+        {q: "How many impostors can you have in a max game of Among Us?", opts: ["1", "2", "3", "4"], a: 2},
+        {q: "In Among Us, what does the 'Kill' button do to a crewmate?", opts: ["Ejects them", "Eliminates them on the spot", "Reports them", "Freezes them"], a: 1},
+        {q: "What is the maximum number of players in an Among Us lobby?", opts: ["10", "12", "15", "20"], a: 2},
+        {q: "In Among Us, what map takes place on a volcanic planet?", opts: ["Polus", "The Skeld", "MIRA HQ", "The Airship"], a: 0},
+
+        // === LORD OF THE RINGS ===
         {q: "In Lord of the Rings, what is the name of Gandalf's sword?", opts: ["Sting", "Glamdring", "Anduril", "Orcrist"], a: 1},
-        {q: "What is poutine made of?", opts: ["Pasta and cheese", "Fries, gravy, and cheese curds", "Rice and beans", "Bread and butter"], a: 1}
+        {q: "What is the name of Frodo's sword that glows blue near orcs?", opts: ["Glamdring", "Anduril", "Sting", "Narsil"], a: 2},
+        {q: "How many rings were given to the Dwarf lords?", opts: ["3", "5", "7", "9"], a: 2},
+        {q: "What creature does Gandalf ride that can fly?", opts: ["Dragon", "Giant Eagle", "Fell Beast", "Phoenix"], a: 1},
+        {q: "What is the name of the giant spider Frodo fights?", opts: ["Aragog", "Shelob", "Ungoliant", "Charlotte"], a: 1},
+        {q: "What race is Legolas?", opts: ["Human", "Dwarf", "Elf", "Hobbit"], a: 2},
+        {q: "What is the One Ring trying to get back to?", opts: ["Mordor", "Sauron", "Mount Doom", "The Shire"], a: 1},
+        {q: "What is Aragorn's true title?", opts: ["King of Gondor", "Lord of the Rings", "The Dark Lord", "Ranger King"], a: 0},
+        {q: "What do hobbits eat between breakfast and lunch?", opts: ["Brunch", "Second Breakfast", "Elevenses", "Tea Time"], a: 1},
+
+        // === PROJECT HAIL MARY ===
+        {q: "In Project Hail Mary, what is the name of Rocky's species?", opts: ["Eridians", "Martians", "Hail People", "Tau Cetians"], a: 0},
+        {q: "In Project Hail Mary, what does the ship use for fuel?", opts: ["Rocket fuel", "Astrophage", "Solar energy", "Nuclear power"], a: 1},
+        {q: "What is Rocky's home star system called?", opts: ["Alpha Centauri", "40 Eridani", "Tau Ceti", "Proxima"], a: 1},
+        {q: "In Project Hail Mary, what is killing the Sun?", opts: ["A black hole", "Astrophage eating its energy", "It's running out of fuel", "Aliens"], a: 1},
+        {q: "How many crew members were supposed to be on the Hail Mary?", opts: ["1", "2", "3", "5"], a: 2},
+        {q: "What does Rocky say instead of 'I understand'?", opts: ["Affirmative", "Good good good", "Yes yes", "Understand understand"], a: 1},
+
+        // === SOCCER ===
+        {q: "How many players are on a soccer field per team (including goalkeeper)?", opts: ["9", "10", "11", "12"], a: 2},
+        {q: "In soccer, what is it called when a player scores 3 goals in one game?", opts: ["Triple Play", "Hat Trick", "Three-peat", "Golden Boot"], a: 1},
+        {q: "Which country has won the most World Cups?", opts: ["Germany", "Argentina", "Italy", "Brazil"], a: 3},
+        {q: "What is the standard length of a professional soccer match (without extra time)?", opts: ["60 minutes", "80 minutes", "90 minutes", "120 minutes"], a: 2},
+        {q: "What does a red card mean in soccer?", opts: ["Warning", "Free kick", "Player is ejected", "Penalty kick"], a: 2},
+        {q: "Who is considered the greatest soccer player ever by many fans?", opts: ["Ronaldo", "Messi", "Pele", "Mbappe"], a: 1},
+        {q: "What is the trophy for the World Cup made of?", opts: ["Silver", "Gold", "Bronze", "Crystal"], a: 1},
+        {q: "In soccer, what is it called when you kick the ball between someone's legs?", opts: ["A chip", "A nutmeg", "A rainbow", "A scissor"], a: 1},
+        {q: "Which country hosted the 2022 World Cup?", opts: ["Russia", "Brazil", "Qatar", "USA"], a: 2},
+
+        // === SPACE & SCIENCE ===
+        {q: "What is the speed of light (approximately)?", opts: ["186,000 miles/sec", "86,000 miles/sec", "1 million miles/sec", "500,000 miles/sec"], a: 0},
+        {q: "Which planet in our solar system has the most moons?", opts: ["Jupiter", "Saturn", "Uranus", "Neptune"], a: 1},
+        {q: "What is the hottest planet in our solar system?", opts: ["Mercury", "Venus", "Mars", "Jupiter"], a: 1},
+        {q: "How long does it take light from the Sun to reach Earth?", opts: ["8 seconds", "8 minutes", "80 minutes", "8 hours"], a: 1},
+        {q: "What is the largest planet in our solar system?", opts: ["Saturn", "Jupiter", "Neptune", "Uranus"], a: 1},
+        {q: "What galaxy do we live in?", opts: ["Andromeda", "The Milky Way", "Triangulum", "Sombrero"], a: 1},
+        {q: "How old is the Earth (approximately)?", opts: ["1 million years", "4.5 billion years", "100 million years", "13.8 billion years"], a: 1},
+        {q: "What planet has the Great Red Spot?", opts: ["Mars", "Saturn", "Jupiter", "Neptune"], a: 2},
+        {q: "What is the closest star to Earth (besides the Sun)?", opts: ["Sirius", "Alpha Centauri", "Proxima Centauri", "Betelgeuse"], a: 2},
+        {q: "How many Earths could fit inside the Sun?", opts: ["100", "1,000", "1.3 million", "1 billion"], a: 2},
+
+        // === GEOGRAPHY (ROAD TRIP) ===
+        {q: "How many states does the US have?", opts: ["48", "50", "51", "52"], a: 1},
+        {q: "What country is north of the United States?", opts: ["Mexico", "Canada", "Greenland", "Russia"], a: 1},
+        {q: "What is the capital of Idaho?", opts: ["Boise", "Idaho Falls", "Nampa", "Burley"], a: 0},
+        {q: "What Canadian province is Vancouver in?", opts: ["Alberta", "Ontario", "British Columbia", "Quebec"], a: 2},
+        {q: "What is the tallest mountain in Washington State?", opts: ["Mount St. Helens", "Mount Rainier", "Mount Baker", "Mount Adams"], a: 1},
+        {q: "What is poutine made of?", opts: ["Pasta and cheese", "Fries, gravy, and cheese curds", "Rice and beans", "Bread and butter"], a: 1},
+        {q: "What ocean is on the west coast of the US?", opts: ["Atlantic", "Pacific", "Arctic", "Indian"], a: 1},
+        {q: "What state is known as Big Sky Country?", opts: ["Wyoming", "Montana", "Idaho", "Colorado"], a: 1},
+        {q: "What is the longest river in the United States?", opts: ["Colorado River", "Mississippi River", "Columbia River", "Missouri River"], a: 3},
+        {q: "What country has the maple leaf on its flag?", opts: ["Japan", "Ireland", "Canada", "Finland"], a: 2},
+        {q: "What mountain range runs through Colorado, Idaho, and Montana?", opts: ["Appalachians", "Sierra Nevada", "Rocky Mountains", "Cascades"], a: 2},
+        {q: "How many provinces does Canada have?", opts: ["8", "10", "12", "13"], a: 1},
+
+        // === ANIMALS ===
+        {q: "What is the fastest land animal?", opts: ["Lion", "Cheetah", "Pronghorn", "Horse"], a: 1},
+        {q: "How fast can a Peregrine Falcon dive?", opts: ["100 mph", "150 mph", "200 mph", "240 mph"], a: 3},
+        {q: "What is the largest animal that has ever lived on Earth?", opts: ["T-Rex", "African Elephant", "Blue Whale", "Megalodon"], a: 2},
+        {q: "How many arms does an octopus have?", opts: ["6", "8", "10", "12"], a: 1},
+        {q: "What animal can hold its breath the longest?", opts: ["Dolphin", "Sea Turtle", "Cuvier's Beaked Whale", "Elephant Seal"], a: 2},
+        {q: "What is a group of wolves called?", opts: ["A herd", "A flock", "A pack", "A pride"], a: 2},
+        {q: "What bear is native to British Columbia and is completely white?", opts: ["Polar Bear", "Albino Grizzly", "Spirit Bear", "Snow Bear"], a: 2},
+
+        // === HARRY POTTER ===
+        {q: "What house is Harry Potter sorted into?", opts: ["Slytherin", "Ravenclaw", "Gryffindor", "Hufflepuff"], a: 2},
+        {q: "What is the name of Harry's owl?", opts: ["Errol", "Hedwig", "Pigwidgeon", "Scabbers"], a: 1},
+        {q: "What position does Harry play in Quidditch?", opts: ["Chaser", "Beater", "Keeper", "Seeker"], a: 3},
+        {q: "What spell makes objects fly?", opts: ["Lumos", "Wingardium Leviosa", "Expelliarmus", "Accio"], a: 1},
+        {q: "What is the name of the three-headed dog guarding the trapdoor?", opts: ["Fang", "Fluffy", "Norbert", "Buckbeak"], a: 1},
+        {q: "What does the Mirror of Erised show you?", opts: ["The future", "Your deepest desire", "Your worst fear", "The truth"], a: 1},
+        {q: "How many Horcruxes did Voldemort create?", opts: ["5", "6", "7", "8"], a: 2},
+        {q: "What animal is Hermione's Patronus?", opts: ["Cat", "Otter", "Horse", "Swan"], a: 1},
+        {q: "What core is in Harry's wand?", opts: ["Dragon heartstring", "Unicorn hair", "Phoenix feather", "Thestral hair"], a: 2},
+        {q: "What is the name of the Weasley's house?", opts: ["The Cottage", "The Burrow", "The Warren", "Shell Cottage"], a: 1},
+        {q: "What magical creature guards the vaults at Gringotts?", opts: ["Trolls", "Dragons", "Giants", "Sphinxes"], a: 1},
+        {q: "What platform does the Hogwarts Express leave from?", opts: ["Platform 8", "Platform 9", "Platform 9 3/4", "Platform 10"], a: 2},
+        {q: "What class does Professor Snape teach (originally)?", opts: ["Transfiguration", "Defense Against Dark Arts", "Potions", "Charms"], a: 2},
+        {q: "What does 'Expecto Patronum' create?", opts: ["A shield", "A silver animal guardian", "Fire", "Lightning"], a: 1},
+
+        // === STAR WARS ===
+        {q: "What color is Yoda's lightsaber?", opts: ["Blue", "Green", "Purple", "White"], a: 1},
+        {q: "What is the name of Han Solo's ship?", opts: ["X-Wing", "TIE Fighter", "Millennium Falcon", "Star Destroyer"], a: 2},
+        {q: "Who is Luke Skywalker's father?", opts: ["Obi-Wan", "Darth Vader", "Emperor Palpatine", "Yoda"], a: 1},
+        {q: "What planet is covered entirely in desert where Luke grew up?", opts: ["Hoth", "Endor", "Tatooine", "Jakku"], a: 2},
+        {q: "What species is Chewbacca?", opts: ["Ewok", "Wookiee", "Gungan", "Jawa"], a: 1},
+        {q: "What do Jedi use to fight?", opts: ["Blasters", "Lightsabers", "The Force only", "Vibro-blades"], a: 1},
+        {q: "What is Baby Yoda's real name?", opts: ["Yoda Jr.", "Yaddle", "Grogu", "Kanan"], a: 2},
+        {q: "In what order was the original Star Wars movie released?", opts: ["Episode 1", "Episode 4", "Episode 6", "Episode 3"], a: 1},
+        {q: "What color is Mace Windu's lightsaber?", opts: ["Blue", "Green", "Red", "Purple"], a: 3},
+        {q: "What is the Sith Rule of Two?", opts: ["Always two there are, a master and apprentice", "Only the strongest survive", "Power demands sacrifice", "The dark side rules all"], a: 0},
+        {q: "Who trained Anakin Skywalker as a Jedi?", opts: ["Yoda", "Mace Windu", "Obi-Wan Kenobi", "Qui-Gon Jinn"], a: 2},
+        {q: "What is the ice planet in The Empire Strikes Back?", opts: ["Hoth", "Endor", "Dagobah", "Mustafar"], a: 0},
+        {q: "What creature lives in the trash compactor on the Death Star?", opts: ["Rancor", "Sarlacc", "Dianoga", "Wampa"], a: 2},
+        {q: "Who said 'Do or do not. There is no try'?", opts: ["Obi-Wan", "Luke", "Yoda", "Mace Windu"], a: 2},
+
+        // === LOGIC & BRAIN TEASERS ===
+        {q: "I have cities but no houses, forests but no trees, and water but no fish. What am I?", opts: ["A dream", "A map", "A painting", "A video game"], a: 1},
+        {q: "What has hands but can't clap?", opts: ["A statue", "A clock", "A puppet", "A robot"], a: 1},
+        {q: "If you have 3 apples and take away 2, how many do YOU have?", opts: ["1", "2", "3", "0"], a: 1},
+        {q: "A farmer has 17 sheep. All but 9 run away. How many are left?", opts: ["8", "9", "17", "0"], a: 1},
+        {q: "What gets wetter the more it dries?", opts: ["A sponge", "A towel", "Rain", "Ice"], a: 1},
+        {q: "What comes once in a minute, twice in a moment, but never in a thousand years?", opts: ["Time", "The letter M", "A heartbeat", "The sun"], a: 1},
+        {q: "If there are 3 birds on a fence and you shoot one, how many are left?", opts: ["2", "0 (they all fly away)", "1", "3"], a: 1},
+        {q: "A boy is 10. His sister is half his age. When the boy is 20, how old is his sister?", opts: ["10", "15", "20", "12"], a: 1},
+        {q: "What has a head and a tail but no body?", opts: ["A snake", "A coin", "A worm", "A pin"], a: 1},
+        {q: "How many months have 28 days?", opts: ["1 (February)", "All 12", "None", "Only leap years"], a: 1},
+        {q: "What can you catch but not throw?", opts: ["A ball", "A cold", "A fish", "A frisbee"], a: 1},
+        {q: "If you're in a race and pass the person in 2nd place, what place are you in?", opts: ["1st", "2nd", "3rd", "It depends"], a: 1},
+        {q: "What weighs more: a pound of feathers or a pound of rocks?", opts: ["Feathers", "Rocks", "They weigh the same", "Depends on gravity"], a: 2},
+        {q: "A man builds a house with all 4 sides facing south. A bear walks by. What color is it?", opts: ["Brown", "Black", "White (he's at the North Pole)", "Gray"], a: 2},
+
+        // === RANDOM FUN ===
+        {q: "What is the deepest point in the ocean?", opts: ["Mariana Trench", "Puerto Rico Trench", "Tonga Trench", "Java Trench"], a: 0},
+        {q: "How many bones does a shark have?", opts: ["0 (cartilage only)", "50", "206", "100"], a: 0},
+        {q: "What is the only metal that is liquid at room temperature?", opts: ["Lead", "Mercury", "Gallium", "Silver"], a: 1},
+        {q: "If you dug straight through the Earth from the US, where would you end up?", opts: ["China", "Australia", "The Indian Ocean", "Africa"], a: 2},
+        {q: "How many teeth does an adult human have?", opts: ["28", "30", "32", "36"], a: 2},
+        {q: "What percentage of the Earth is covered by water?", opts: ["50%", "61%", "71%", "85%"], a: 2}
     ];
 
     let triviaIndex = 0;
@@ -1851,7 +1984,7 @@
                 <div class="trivia-question">
                     <h4>🏆 Quest Complete!</h4>
                     <p style="color: var(--text-dim);">You scored ${triviaScore} out of ${shuffledTrivia.length}!</p>
-                    <p style="color: var(--gold); margin-top: 10px; font-size: 1.5rem;">${triviaScore >= 20 ? '👑 LEGENDARY!' : triviaScore >= 15 ? '⚔️ HERO!' : triviaScore >= 10 ? '🛡️ WARRIOR!' : '🗡️ ADVENTURER!'}</p>
+                    <p style="color: var(--gold); margin-top: 10px; font-size: 1.5rem;">${triviaScore >= 80 ? '👑 LEGENDARY!' : triviaScore >= 60 ? '⚔️ HERO!' : triviaScore >= 40 ? '🛡️ WARRIOR!' : triviaScore >= 20 ? '🗡️ ADVENTURER!' : '🌱 APPRENTICE'}</p>
                 </div>`;
             return;
         }
@@ -1899,30 +2032,116 @@
 
     // ============ WOULD YOU RATHER ============
     const wyrQuestions = [
+        // === GAMING ===
         ["Have a portal gun from Minecraft", "Have a paraglider from Zelda"],
         ["Be an Impostor in real life Among Us", "Be a Crewmate with a detective kit"],
         ["Live in the Shire (Lord of the Rings)", "Live in Hateno Village (Zelda)"],
-        ["Have super speed like a Peregrine Falcon (240mph)", "Have super strength like a Goron"],
-        ["Only eat poutine for a month", "Only eat potatoes for a month"],
         ["Explore a real-life Minecraft cave", "Explore a real-life Zelda dungeon"],
-        ["Meet Ryland Grace from Project Hail Mary", "Meet Gandalf from Lord of the Rings"],
-        ["Score the winning goal in the World Cup", "Hit a grand slam in the World Series"],
-        ["Ride a bear across Canada", "Ride a moose across Montana"],
         ["Have unlimited diamonds in Minecraft", "Have the Master Sword in real life"],
-        ["Be able to breathe underwater", "Be able to fly but only 10 feet high"],
         ["Fight one Hinox (Zelda)", "Fight 100 Silverfish (Minecraft)"],
-        ["Travel to space with Rocky (Project Hail Mary)", "Travel to Middle Earth"],
-        ["Have a pet wolf (tamed like Minecraft)", "Have a pet falcon"],
-        ["Live in a treehouse for a year", "Live in a submarine for a year"],
-        ["Always smell like blueberries", "Always have glitter in your hair"],
-        ["Be invisible but only when no one is looking", "Be able to fly but only when singing"],
-        ["Swim in a pool of cheese curds", "Slide down a mountain of french fries"],
-        ["Play soccer on the moon (low gravity!)", "Play Minecraft in VR forever"],
         ["Have Ganondorf as your soccer coach", "Have a Creeper as your alarm clock"],
+        ["Have the Hylian Shield for a day", "Have a full set of Netherite armor for a day"],
+        ["Live in a Minecraft village forever", "Live in Kakariko Village forever"],
+        ["Be able to Ascend through any ceiling (TOTK)", "Be able to mine any block instantly"],
+        ["Have a real-life Elytra", "Have a real-life Loftwing from Zelda"],
+        ["Be an Enderman for a day", "Be a Bokoblin for a day"],
+        ["Play the next Zelda game early", "Play the next Minecraft update early"],
+        ["Have a pet Creeper that doesn't explode", "Have a pet Guardian that follows you around"],
+
+        // === ADVENTURE & TRAVEL ===
         ["Cross the border into a new country every day", "Stay in one country forever but it's massive"],
+        ["Only eat poutine for a month", "Only eat potatoes for a month"],
+        ["Ride a bear across Canada", "Ride a moose across Montana"],
+        ["Swim in a pool of cheese curds", "Slide down a mountain of french fries"],
+        ["Live in a treehouse for a year", "Live in a submarine for a year"],
+        ["Road trip across all 50 states", "Road trip across 10 different countries"],
+        ["Live at the top of a mountain", "Live on a houseboat in the ocean"],
+        ["Visit every waterfall in the US", "Visit every volcano in the world"],
+        ["Sleep in a different hotel every night for a year", "Never leave your hometown for 5 years"],
+        ["Drive across the Sahara Desert", "Drive across the frozen tundra of Alaska"],
+        ["Live where it's summer all year", "Live where it snows every day"],
+
+        // === SUPERPOWERS ===
+        ["Have super speed like a Peregrine Falcon (240mph)", "Have super strength like a Goron"],
+        ["Be able to breathe underwater", "Be able to fly but only 10 feet high"],
         ["Have night vision like an owl", "Have echo-location like a bat"],
+        ["Be invisible but only when no one is looking", "Be able to fly but only when singing"],
+        ["Read minds but you can't turn it off", "See the future but only 10 seconds ahead"],
+        ["Have spider powers (wall climbing, webs)", "Have super speed like The Flash"],
+        ["Teleport anywhere but you arrive naked", "Fly anywhere but at walking speed"],
+        ["Be immune to cold", "Be immune to heat"],
+        ["Shrink to the size of an ant whenever you want", "Grow to 50 feet tall whenever you want"],
+        ["Talk to animals", "Speak every human language fluently"],
+        ["Have unbreakable bones", "Never need to sleep"],
+        ["Breathe in space", "Breathe underwater"],
+
+        // === BOOKS & MOVIES ===
+        ["Meet Ryland Grace from Project Hail Mary", "Meet Gandalf from Lord of the Rings"],
+        ["Travel to space with Rocky (Project Hail Mary)", "Travel to Middle Earth"],
+        ["Have Rocky as your best friend", "Have Groot as your best friend"],
+        ["Live on the Hail Mary spaceship for a year", "Live in Hogwarts for a year"],
+        ["Be a Jedi", "Be a wizard from Lord of the Rings"],
+        ["Fight a Balrog with Gandalf", "Fight Thanos with the Avengers"],
+        ["Discover a new alien species", "Discover a new dinosaur fossil"],
+
+        // === SOCCER ===
+        ["Score the winning goal in the World Cup", "Hit a grand slam in the World Series"],
+        ["Play soccer on the moon (low gravity!)", "Play Minecraft in VR forever"],
+        ["Be the best goalkeeper ever", "Be the fastest striker ever"],
+        ["Win the World Cup with your country", "Win the Champions League with your club"],
+        ["Have Messi teach you for a day", "Have Ronaldo teach you for a day"],
+        ["Score a bicycle kick goal", "Make a perfect hat trick (left foot, right foot, header)"],
+        ["Play soccer on every continent", "Play against your favorite professional team"],
+
+        // === GROSS & SILLY ===
+        ["Always smell like blueberries", "Always have glitter in your hair"],
+        ["Eat the spiciest hot spring water soup", "Drink liquid poutine gravy"],
+        ["Have spaghetti for hair", "Sweat maple syrup"],
+        ["Burp confetti", "Sneeze glitter"],
+        ["Have hands for feet", "Feet for hands"],
+        ["Only be able to whisper", "Only be able to shout"],
+        ["Lick the floor of a gas station", "Eat a whole raw onion"],
+        ["Have a permanent clown nose", "Have permanent clown shoes"],
+        ["Smell like a skunk for a day", "Have a skunk follow you everywhere for a week"],
+
+        // === HARD CHOICES ===
         ["Find $100 on the road", "Find a real Triforce piece"],
-        ["Eat the spiciest hot spring water soup", "Drink liquid poutine gravy"]
+        ["Have a pet wolf (tamed like Minecraft)", "Have a pet falcon"],
+        ["Know how every movie ends", "Never be able to watch the same movie twice"],
+        ["Be the funniest person alive", "Be the smartest person alive"],
+        ["Always have to sing instead of talk", "Always have to dance instead of walk"],
+        ["Give up pizza forever", "Give up ice cream forever"],
+        ["Give up video games for a year", "Give up your phone for a year"],
+        ["Be 10 years old forever", "Skip to being 25 right now"],
+        ["Never have homework again", "Never have chores again"],
+        ["Have school start at noon", "Have school end at noon"],
+        ["Be famous but always busy", "Be unknown but have tons of free time"],
+
+        // === HARRY POTTER ===
+        ["Be a Gryffindor", "Be a Slytherin"],
+        ["Have an invisibility cloak", "Have a time turner"],
+        ["Play Quidditch as Seeker", "Play Quidditch as Beater"],
+        ["Have Dumbledore as your teacher", "Have Yoda as your teacher"],
+        ["Ride a Hippogriff", "Ride a dragon"],
+        ["Drink Polyjuice Potion and be anyone for an hour", "Have Felix Felicis (lucky potion) for a day"],
+        ["Live at Hogwarts", "Live at the Jedi Temple"],
+        ["Own the Elder Wand", "Own a real lightsaber"],
+        ["Be friends with Hagrid", "Be friends with Chewbacca"],
+        ["Take classes at Hogwarts for a year", "Train as a Padawan for a year"],
+        ["Have a phoenix as a pet", "Have a baby Yoda as a pet"],
+        ["Play wizard chess for real", "Play Dejarik (holochess) on the Falcon"],
+
+        // === STAR WARS ===
+        ["Be a Jedi", "Be a Mandalorian"],
+        ["Have the Force", "Have a lightsaber (but no Force)"],
+        ["Fly the Millennium Falcon", "Fly an X-Wing"],
+        ["Live on Endor with Ewoks", "Live on Naboo"],
+        ["Fight Darth Vader", "Fight Voldemort"],
+        ["Be trained by Obi-Wan", "Be trained by Dumbledore"],
+        ["Have R2-D2 as your sidekick", "Have BB-8 as your sidekick"],
+        ["Visit Tatooine", "Visit Hogwarts"],
+        ["Be a Sith Lord for a day (no consequences)", "Be Voldemort for a day (no consequences)"],
+        ["Pilot an AT-AT walker", "Ride a Hungarian Horntail dragon"]
     ];
 
     let wyrIndex = 0;
